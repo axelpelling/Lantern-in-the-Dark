@@ -26,7 +26,7 @@ public class MainActivity extends ActionBarActivity implements NetworkingEventHa
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+		//hej  hej banan
 		manager = new NetworkingManager(this, "group", "me");
 		msgField = (EditText) findViewById(R.id.sendMsgEditText);
 		serverMsg = (TextView) findViewById(R.id.receiveMsgTextView);
