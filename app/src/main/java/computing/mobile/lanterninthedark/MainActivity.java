@@ -18,6 +18,7 @@ import android.os.Bundle;
  */
 public class MainActivity extends ActionBarActivity implements NetworkingEventHandler{
 
+    private GridSystem gridSystem;
 	private NetworkingManager manager;
 	private EditText msgField;
 	private TextView serverMsg;
@@ -26,12 +27,21 @@ public class MainActivity extends ActionBarActivity implements NetworkingEventHa
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+        Phone phone = new Phone(1);
+        phone.setPosition(1, 1);
+
+        gridSystem = GridSystem.getInstance();
+        gridSystem.setPhonePosition(phone);
+
 		
 		manager = new NetworkingManager(this, "group", "me");
 		msgField = (EditText) findViewById(R.id.sendMsgEditText);
 		serverMsg = (TextView) findViewById(R.id.receiveMsgTextView);
 		
 		manager.monitorKeyOfUser("key", "user");
+
+        Log.d("test", "" + gridSystem.getGrid());
 		
 		//Below are other possible methods calls that can be used for testing and monitoring logs.
 		/*
@@ -53,7 +63,7 @@ public class MainActivity extends ActionBarActivity implements NetworkingEventHa
 	public void sendMsg(View view){
 		if(view.getId() == R.id.sendMsgButton && msgField != null && 
 				msgField.getText() != null && !msgField.getText().equals("")){
-			
+
 			manager.saveValueForKeyOfUser("key", "user", msgField.getText().toString());
 		}
 	}
