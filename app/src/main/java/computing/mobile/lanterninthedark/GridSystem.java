@@ -24,7 +24,7 @@ public class GridSystem {
         }
     }
 
-    public void setPhonePosition(Phone phone){
+    public void addPhone(Phone phone){
         grid[phone.getX()][phone.getY()] = phone.getId();
     }
 

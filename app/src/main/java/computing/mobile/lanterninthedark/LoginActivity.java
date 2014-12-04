@@ -1,30 +1,27 @@
 package computing.mobile.lanterninthedark;
 
-import android.os.NetworkOnMainThreadException;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import org.json.JSONObject;
 
 
-public class LoginActivity extends ActionBarActivity implements NetworkingEventHandler {
+public class LoginActivity extends ActionBarActivity {
 
-    private GridSystem gridSystem;
-    private NetworkingManager userManager;
-    private NetworkingManager gridManager;
+    private EditText userLoginEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        gridSystem = GridSystem.getInstance();
-        userManager = new NetworkingManager(this, "Group5", "me");
-        gridManager = new NetworkingManager(this, "Group5", "gridSystem");
 
-
+        userLoginEditText = (EditText) findViewById(R.id.userLoginEditText);
     }
 
 
@@ -50,43 +47,11 @@ public class LoginActivity extends ActionBarActivity implements NetworkingEventH
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void savedValueForKeyOfUser(JSONObject json, String key, String user) {
+    public void userHostLogin(View view) {
 
     }
 
-    @Override
-    public void loadedValueForKeyOfUser(JSONObject json, String key, String user) {
-
-    }
-
-    @Override
-    public void deletedKeyOfUser(JSONObject json, String key, String user) {
-
-    }
-
-    @Override
-    public void monitoringKeyOfUser(JSONObject json, String key, String user) {
-
-    }
-
-    @Override
-    public void ignoringKeyOfUser(JSONObject json, String key, String user) {
-
-    }
-
-    @Override
-    public void valueChangedForKeyOfUser(JSONObject json, String key, String user) {
-
-    }
-
-    @Override
-    public void lockedKeyofUser(JSONObject json, String key, String user) {
-
-    }
-
-    @Override
-    public void unlockedKeyOfUser(JSONObject json, String key, String user) {
+    public void userClientLogin(View view) {
 
     }
 }

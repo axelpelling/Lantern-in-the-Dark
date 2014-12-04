@@ -31,7 +31,7 @@ public class MainActivity extends ActionBarActivity implements NetworkingEventHa
         Phone phone = new Phone(1, 3, 2);
 
         gridSystem = GridSystem.getInstance();
-        gridSystem.setPhonePosition(phone);
+        gridSystem.addPhone(phone);
 
 		
 		manager = new NetworkingManager(this, "group", "me");
@@ -84,6 +84,7 @@ public class MainActivity extends ActionBarActivity implements NetworkingEventHa
 	@Override
 	public void loadedValueForKeyOfUser(JSONObject json, String key, String user) {
 		//TODO Do something with returned values?
+
 	}
 	
 	@Override

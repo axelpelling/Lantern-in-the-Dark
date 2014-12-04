@@ -14,7 +14,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
-        android:id="@+id/userLoginEditView"
+        android:id="@+id/userLoginEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/userLoginTextView"
@@ -28,14 +28,22 @@
     </EditText>
 
     <Button
-        android:id="@+id/userLoginButton"
+        android:id="@+id/userHostButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/userLoginEditView"
-        android:layout_below="@+id/userLoginEditView"
+        android:layout_below="@+id/userLoginEditText"
         android:layout_marginTop="14dp"
-        android:onClick="userLogin"
-        android:text="@string/userLoginButtonString" />
+        android:onClick="userHostLogin"
+        android:text="@string/userHostButtonString" />
+
+    <Button
+        android:id="@+id/userClientButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userHostButton"
+        android:layout_marginTop="14dp"
+        android:onClick="userClientLogin"
+        android:text="@string/userClientButtonString" />
 
 
 </RelativeLayout>

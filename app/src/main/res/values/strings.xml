@@ -5,9 +5,20 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Login Activity Strings -->
     <string name="userLoginTextViewString">Enter username to login.</string>
     <string name="userLoginHintString">Username</string>
-    <string name="userLoginButtonString">Login</string>
+    <string name="userHostButtonString">Login as host</string>
+    <string name="userClientButtonString">Login as client</string>
+    <string name="title_activity_host">HostActivity</string>
+    <string name="title_activity_client">ClientActivity</string>
+
+    <!-- Host Activity Strings -->
+    <string name="HostTextViewString">You are the host. Press start game when everyone has connected.</string>
+    <string name="HostButtonString">Start</string>
+
+    <!-- Client Activity Strings -->
+    <string name="ClientTextViewString">Waiting for the host to start the game.</string>
 
 
 </resources>
