@@ -16,6 +16,12 @@ public class Phone {
         this.id = id;
     }
 
+    public Phone(int id, int x, int y){
+        this.x = x;
+        this.y = y;
+        this.id = id;
+    }
+
     public void setPosition(int x, int y){
         this.x = x;
         this.y = y;

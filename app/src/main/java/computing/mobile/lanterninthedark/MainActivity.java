@@ -28,8 +28,7 @@ public class MainActivity extends ActionBarActivity implements NetworkingEventHa
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-        Phone phone = new Phone(1);
-        phone.setPosition(1, 1);
+        Phone phone = new Phone(1, 3, 2);
 
         gridSystem = GridSystem.getInstance();
         gridSystem.setPhonePosition(phone);
@@ -41,7 +40,9 @@ public class MainActivity extends ActionBarActivity implements NetworkingEventHa
 		
 		manager.monitorKeyOfUser("key", "user");
 
-        Log.d("test", "" + gridSystem.getGrid());
+
+
+        gridSystem.printGrid();
 		
 		//Below are other possible methods calls that can be used for testing and monitoring logs.
 		/*

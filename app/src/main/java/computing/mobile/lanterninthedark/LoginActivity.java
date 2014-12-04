@@ -1,17 +1,30 @@
 package computing.mobile.lanterninthedark;
 
+import android.os.NetworkOnMainThreadException;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.json.JSONObject;
 
-public class LoginActivity extends ActionBarActivity {
+
+public class LoginActivity extends ActionBarActivity implements NetworkingEventHandler {
+
+    private GridSystem gridSystem;
+    private NetworkingManager userManager;
+    private NetworkingManager gridManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        gridSystem = GridSystem.getInstance();
+        userManager = new NetworkingManager(this, "Group5", "me");
+        gridManager = new NetworkingManager(this, "Group5", "gridSystem");
+
+
     }
 
 
@@ -35,5 +48,45 @@ public class LoginActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void savedValueForKeyOfUser(JSONObject json, String key, String user) {
+
+    }
+
+    @Override
+    public void loadedValueForKeyOfUser(JSONObject json, String key, String user) {
+
+    }
+
+    @Override
+    public void deletedKeyOfUser(JSONObject json, String key, String user) {
+
+    }
+
+    @Override
+    public void monitoringKeyOfUser(JSONObject json, String key, String user) {
+
+    }
+
+    @Override
+    public void ignoringKeyOfUser(JSONObject json, String key, String user) {
+
+    }
+
+    @Override
+    public void valueChangedForKeyOfUser(JSONObject json, String key, String user) {
+
+    }
+
+    @Override
+    public void lockedKeyofUser(JSONObject json, String key, String user) {
+
+    }
+
+    @Override
+    public void unlockedKeyOfUser(JSONObject json, String key, String user) {
+
     }
 }

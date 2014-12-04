@@ -5,4 +5,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <string name="userLoginTextViewString">Enter username to login.</string>
+    <string name="userLoginHintString">Username</string>
+    <string name="userLoginButtonString">Login</string>
+
+
 </resources>

@@ -31,4 +31,20 @@ public class GridSystem {
     public int[][] getGrid(){
         return grid;
     }
+
+    public void printGrid(){
+        int i = 0;
+        for (int[] array : grid){
+            Log.d("arrayLog", "Array " + i + ":");
+            i++;
+            for (int j : array){
+
+                //plant = Arrays.toString(plants[i]);
+                //color = Arrays.deepToString(plants[j]);
+                //System.out.println(plant + " " + color);
+                Log.d("arrayLog", "" + j);
+
+            }
+        }
+    }
 }
