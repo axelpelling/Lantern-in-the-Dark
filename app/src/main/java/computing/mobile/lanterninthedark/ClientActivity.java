@@ -6,6 +6,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.gson.Gson;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -57,6 +60,14 @@ public class ClientActivity extends ActionBarActivity implements NetworkingEvent
 
         if(key.equals("gridSystem") && user.equals("Host")){
             Log.d("test1", "success");
+            try {
+                Gson gson = new Gson();
+                String gridSystemString = (String) json.getJSONArray("records").getJSONObject(0).get("gridSystem");
+                GridSystem gridSystem = gson.fromJson(gridSystemString, GridSystem.class);
+                gridSystem.printGrid();
+            } catch (JSONException e) {
+                Log.e(NetworkingManager.TAG_ERROR, e.getMessage());
+            }
         }
 
     }

@@ -48,10 +48,12 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     public void userHostLogin(View view) {
-
+        Intent intent = new Intent(this, HostActivity.class);
+        startActivity(intent);
     }
 
     public void userClientLogin(View view) {
-
+        Intent intent = new Intent(this, ClientActivity.class);
+        startActivity(intent);
     }
 }
