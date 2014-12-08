@@ -17,8 +17,8 @@ import java.util.LinkedHashMap;
 
 public class GameActivity extends Activity implements NetworkingEventHandler {
 
-    private enum status {TARGET, PLAYING, PLAYED, UNPLAYED, LOADING}
-    private status currentStatus;
+    private enum Status {TARGET, PLAYING, PLAYED, UNPLAYED, LOADING}
+    private Status currentStatus;
 
     private NetworkingManager manager;
 
@@ -35,7 +35,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        currentStatus = status.LOADING;
+        changeStatus(Status.LOADING);
 
         Intent intent = getIntent();
         playerName = intent.getStringExtra("playerName");
@@ -74,16 +74,13 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 String playersString = (String) json.get("value");
                 playOrder = gson.fromJson(playersString, ArrayList.class);
                 if(playOrder.get(0).equals(playerName)){
-                    currentStatus = status.PLAYING;
-                    statusChanged();
+                    changeStatus(Status.PLAYING);
                 }
                 else if(playOrder.get(1).equals(playerName)){
-                    currentStatus = status.TARGET;
-                    statusChanged();
+                    changeStatus(Status.TARGET);
                 }
                 else{
-                    currentStatus = status.UNPLAYED;
-                    statusChanged();
+                    changeStatus(Status.UNPLAYED);
                 }
             }
 
@@ -122,7 +119,8 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
 
     }
 
-    public void statusChanged(){
+    public void changeStatus(Status status){
+        currentStatus = status;
         switch (currentStatus){
             case LOADING:
 
