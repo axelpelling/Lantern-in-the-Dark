@@ -49,11 +49,13 @@ public class LoginActivity extends ActionBarActivity {
 
     public void userHostLogin(View view) {
         Intent intent = new Intent(this, HostActivity.class);
+        intent.putExtra("hostName", userLoginEditText.getText().toString());
         startActivity(intent);
     }
 
     public void userClientLogin(View view) {
         Intent intent = new Intent(this, ClientActivity.class);
+        intent.putExtra("clientName", userLoginEditText.getText().toString());
         startActivity(intent);
     }
 }

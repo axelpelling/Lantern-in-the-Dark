@@ -1,20 +1,36 @@
 package computing.mobile.lanterninthedark;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 
 
 public class HostActivity extends ActionBarActivity implements NetworkingEventHandler{
 
-    NetworkingManager manager;
-    GridSystem gridSystem;
-    Phone hostPhone;
+    private NetworkingManager manager;
+    private GridSystem gridSystem;
+    private Phone hostPhone;
+    private LinkedHashMap<String, Phone> players;
+    private ArrayList<String> playerNames;
+    private ArrayAdapter<String> adapter;
+    private String hostName;
 
 
     @Override
@@ -22,18 +38,42 @@ public class HostActivity extends ActionBarActivity implements NetworkingEventHa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host);
 
+        Intent intent = getIntent();
+        hostName = intent.getStringExtra("hostName");
 
-
-        manager = new NetworkingManager(this, "Group5", "Host");
-        hostPhone = new Phone(1, 0, 0);
+        manager = new NetworkingManager(this, "Group5", hostName);
+        hostPhone = new Phone(1);
         gridSystem = GridSystem.getInstance();
-        gridSystem.addPhone(hostPhone);
 
+
+        //Save gridSystem to server
         Gson gson = new Gson();
         String gridSystemJson = gson.toJson(gridSystem);
-        manager.saveValueForKeyOfUser("gridSystem", "Host", gridSystemJson);
+        manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemJson);
 
+        //Save host player name to players list
+        players = new LinkedHashMap<String, Phone>();
+        players.put(hostName, hostPhone);
+        String playerHashMapString = gson.toJson(players);
+        manager.saveValueForKeyOfUser("players", "host", playerHashMapString);
 
+        //Set adapter to view users
+        playerNames = new ArrayList<String>();
+        String[] playerNamesTemp =  Arrays.asList(players.keySet().toArray()).toArray(new String[players.keySet().toArray().length]);
+        for(String player : playerNamesTemp){
+            playerNames.add(player);
+        }
+        ListView listView = (ListView) findViewById(android.R.id.list);
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,
+                playerNames);
+        listView.setAdapter(adapter);
+
+        //Key for the clients to monitor for when to start the game.
+        manager.saveValueForKeyOfUser("startGame", "host", "false");
+
+        //Monitor players key to check for clients
+        manager.monitorKeyOfUser("players", "host");
     }
 
 
@@ -61,7 +101,12 @@ public class HostActivity extends ActionBarActivity implements NetworkingEventHa
 
     @Override
     public void savedValueForKeyOfUser(JSONObject json, String key, String user) {
-
+        if(key.equals("playOrder") && user.equals("host")){
+            manager.saveValueForKeyOfUser("startGame", "host", "true");
+            Intent intent = new Intent(this, GameActivity.class);
+            intent.putExtra("playerName", hostName);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -86,7 +131,25 @@ public class HostActivity extends ActionBarActivity implements NetworkingEventHa
 
     @Override
     public void valueChangedForKeyOfUser(JSONObject json, String key, String user) {
+        Gson gson = new Gson();
+        Log.d(NetworkingManager.TAG_EVENT_COMPLETE, "JSONOBject retreived in method valueChanged + " +
+                "forKeyOfUser: " +  json.toString());
+        try {
+            if(key.equals("players") && user.equals("host")){
+                String playersString = (String) json.getJSONArray("records").getJSONObject(0).get("value");
+                players = gson.fromJson(playersString, LinkedHashMap.class);
 
+                playerNames.clear();
+                String[] playerNamesTemp =  Arrays.asList(players.keySet().toArray()).toArray(new String[players.keySet().toArray().length]);
+                for(String player : playerNamesTemp){
+                    playerNames.add(player);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+        } catch (JSONException e) {
+            Log.e(NetworkingManager.TAG_ERROR, e.getMessage());
+        }
     }
 
     @Override
@@ -97,5 +160,24 @@ public class HostActivity extends ActionBarActivity implements NetworkingEventHa
     @Override
     public void unlockedKeyOfUser(JSONObject json, String key, String user) {
 
+    }
+
+    public void startGame(View view) {
+        if(playerNames.size() >= 2){
+            Log.d("test1", "starting game, host");
+            manager.ignoreKeyOfUser("players", "host");
+
+            ArrayList<String> playOrder = playerNames;
+            Collections.shuffle(playOrder);
+            Gson gson = new Gson();
+            String playOrderString = gson.toJson(playOrder);
+
+            manager.saveValueForKeyOfUser("playOrder", "host", playOrderString);
+        }
+        else{
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this.getApplicationContext(), "More than 1 player required to start.", duration);
+            toast.show();
+        }
     }
 }

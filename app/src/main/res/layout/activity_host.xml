@@ -12,14 +12,24 @@
         android:id="@+id/hostTextView"
         android:text="@string/HostTextViewString"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
+
+    <ListView
+        android:id="@id/android:list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hostTextView"
+        />
+
 
     <Button
         android:id="@+id/hostButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/hostTextView"
+        android:layout_below="@id/android:list"
         android:text="@string/HostButtonString"
+        android:onClick="startGame"
         />
 
 

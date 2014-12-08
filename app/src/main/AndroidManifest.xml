@@ -26,6 +26,10 @@
             android:name="computing.mobile.lanterninthedark.ClientActivity"
             android:label="@string/title_activity_client" >
         </activity>
+        <activity
+            android:name="computing.mobile.lanterninthedark.GameActivity"
+            android:label="@string/title_activity_game" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package computing.mobile.lanterninthedark;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,19 +12,34 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+
 
 public class ClientActivity extends ActionBarActivity implements NetworkingEventHandler {
 
-    NetworkingManager manager;
+    private NetworkingManager manager;
+    private GridSystem gridSystem;
+    private LinkedHashMap<String, Phone> players;
+    private Phone clientPhone;
+    private String clientName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
 
-        manager = new NetworkingManager(this, "Group5", "Client");
 
-        manager.loadValueForKeyOfUser("gridSystem", "Host");
+        Intent intent = getIntent();
+        clientName = intent.getStringExtra("clientName");
+
+        manager = new NetworkingManager(this, "Group5", clientName);
+
+        manager.loadValueForKeyOfUser("gridSystem", "host");
+
+        manager.lockKeyOfUser("players", "host");
+
+        manager.monitorKeyOfUser("startGame", "host");
 
     }
 
@@ -57,17 +73,29 @@ public class ClientActivity extends ActionBarActivity implements NetworkingEvent
 
     @Override
     public void loadedValueForKeyOfUser(JSONObject json, String key, String user) {
+        Gson gson = new Gson();
 
-        if(key.equals("gridSystem") && user.equals("Host")){
-            Log.d("test1", "success");
-            try {
-                Gson gson = new Gson();
-                String gridSystemString = (String) json.getJSONArray("records").getJSONObject(0).get("gridSystem");
-                GridSystem gridSystem = gson.fromJson(gridSystemString, GridSystem.class);
+        try {
+            if(key.equals("gridSystem") && user.equals("host") && json.get("code").equals("1")){
+                Log.d("test1", json.toString());
+                String gridSystemString = (String) json.get("value");
+                gridSystem = gson.fromJson(gridSystemString, GridSystem.class);
                 gridSystem.printGrid();
-            } catch (JSONException e) {
-                Log.e(NetworkingManager.TAG_ERROR, e.getMessage());
             }
+            else if(key.equals("players") && user.equals("host") && json.get("code").equals("1")){
+                String playersString = (String) json.get("value");
+                players = gson.fromJson(playersString, LinkedHashMap.class);
+                int id = players.size() + 1;
+                clientPhone = new Phone(id);
+                players.put(clientName, clientPhone);
+
+                String playerHashMapString = gson.toJson(players);
+                manager.saveValueForKeyOfUser("players", "host", playerHashMapString);
+                manager.unlockKeyOfUser("players", "host");
+            }
+
+        } catch (JSONException e) {
+                Log.e(NetworkingManager.TAG_ERROR, e.getMessage());
         }
 
     }
@@ -89,12 +117,38 @@ public class ClientActivity extends ActionBarActivity implements NetworkingEvent
 
     @Override
     public void valueChangedForKeyOfUser(JSONObject json, String key, String user) {
+        Log.d(NetworkingManager.TAG_EVENT_COMPLETE, "JSONOBject retreived in method valueChanged + " +
+                "forKeyOfUser: " +  json.toString());
+        try {
+            if(key.equals("startGame") && user.equals("host")){
+                if(json.getJSONArray("records").getJSONObject(0).getString("value").equals("true")){
+                    Log.d("test1", "starting game, client");
 
+                    Intent intent = new Intent(this, GameActivity.class);
+                    intent.putExtra("playerName", clientName);
+                    startActivity(intent);
+                }
+            }
+
+        } catch (JSONException e) {
+            Log.e(NetworkingManager.TAG_ERROR, e.getMessage());
+        }
     }
 
     @Override
     public void lockedKeyofUser(JSONObject json, String key, String user) {
 
+        try {
+            if(key.equals("players") && user.equals("host") && json.get("code").equals("1")){
+                manager.loadValueForKeyOfUser("players", "host");
+            }
+            else if(key.equals("players") && user.equals("host") && json.get("code").equals("2")){
+                manager.lockKeyOfUser("players", "host");
+            }
+
+        } catch (JSONException e) {
+            Log.e(NetworkingManager.TAG_ERROR, e.getMessage());
+        }
     }
 
     @Override

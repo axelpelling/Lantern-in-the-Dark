@@ -19,6 +19,6 @@
 
     <!-- Client Activity Strings -->
     <string name="ClientTextViewString">Waiting for the host to start the game.</string>
-
+    <string name="title_activity_game">GameActivity</string>
 
 </resources>
