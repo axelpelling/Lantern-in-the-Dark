@@ -1,5 +1,6 @@
 package computing.mobile.lanterninthedark;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 
 
-public class HostActivity extends ActionBarActivity implements NetworkingEventHandler{
+public class HostActivity extends Activity implements NetworkingEventHandler{
 
     private NetworkingManager manager;
     private GridSystem gridSystem;
@@ -179,5 +180,19 @@ public class HostActivity extends ActionBarActivity implements NetworkingEventHa
             Toast toast = Toast.makeText(this.getApplicationContext(), "More than 1 player required to start.", duration);
             toast.show();
         }
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        manager.ignoreKeyOfUser("players", "host");
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        manager.monitorKeyOfUser("players", "host");
     }
 }

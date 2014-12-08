@@ -1,5 +1,6 @@
 package computing.mobile.lanterninthedark;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 
-public class ClientActivity extends ActionBarActivity implements NetworkingEventHandler {
+public class ClientActivity extends Activity implements NetworkingEventHandler {
 
     private NetworkingManager manager;
     private GridSystem gridSystem;
@@ -80,7 +81,6 @@ public class ClientActivity extends ActionBarActivity implements NetworkingEvent
                 Log.d("test1", json.toString());
                 String gridSystemString = (String) json.get("value");
                 gridSystem = gson.fromJson(gridSystemString, GridSystem.class);
-                gridSystem.printGrid();
             }
             else if(key.equals("players") && user.equals("host") && json.get("code").equals("1")){
                 String playersString = (String) json.get("value");
@@ -154,5 +154,19 @@ public class ClientActivity extends ActionBarActivity implements NetworkingEvent
     @Override
     public void unlockedKeyOfUser(JSONObject json, String key, String user) {
 
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        manager.ignoreKeyOfUser("startGame", "host");
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        manager.monitorKeyOfUser("startGame", "host");
     }
 }
