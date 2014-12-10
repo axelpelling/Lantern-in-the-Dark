@@ -143,6 +143,7 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
                 "forKeyOfUser: " +  json.toString());
         try {
             if(key.equals("players") && user.equals("host")){
+                Log.d(NetworkingManager.TAG_EVENT_COMPLETE, "test1" + json.getJSONArray("records").toString());
                 String playersString = (String) json.getJSONArray("records").getJSONObject(0).get("value");
                 players = gson.fromJson(playersString, LinkedHashMap.class);
 
