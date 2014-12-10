@@ -36,8 +36,6 @@ public class ClientActivity extends Activity implements NetworkingEventHandler {
 
         manager = new NetworkingManager(this, "Group5", clientName);
 
-        manager.loadValueForKeyOfUser("gridSystem", "host");
-
         manager.lockKeyOfUser("players", "host");
 
         manager.monitorKeyOfUser("startGame", "host");
@@ -77,12 +75,7 @@ public class ClientActivity extends Activity implements NetworkingEventHandler {
         Gson gson = new Gson();
 
         try {
-            if(key.equals("gridSystem") && user.equals("host") && json.get("code").equals("1")){
-                Log.d("test1", json.toString());
-                String gridSystemString = (String) json.get("value");
-                gridSystem = gson.fromJson(gridSystemString, GridSystem.class);
-            }
-            else if(key.equals("players") && user.equals("host") && json.get("code").equals("1")){
+            if(key.equals("players") && user.equals("host") && json.get("code").equals("1")){
                 String playersString = (String) json.get("value");
                 players = gson.fromJson(playersString, LinkedHashMap.class);
                 int id = players.size() + 1;
@@ -91,6 +84,7 @@ public class ClientActivity extends Activity implements NetworkingEventHandler {
 
                 String playerHashMapString = gson.toJson(players);
                 manager.saveValueForKeyOfUser("players", "host", playerHashMapString);
+                Log.d("players", players.toString());
                 manager.unlockKeyOfUser("players", "host");
             }
 

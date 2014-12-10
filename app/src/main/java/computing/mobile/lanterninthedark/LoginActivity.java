@@ -1,17 +1,15 @@
 package computing.mobile.lanterninthedark;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import org.json.JSONObject;
 
-
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends Activity {
 
     private EditText userLoginEditText;
 

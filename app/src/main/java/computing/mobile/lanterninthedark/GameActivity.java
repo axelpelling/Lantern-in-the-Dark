@@ -13,7 +13,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 
@@ -37,7 +36,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        changeStatus(Status.LOADING);
+        setStatus(Status.LOADING);
 
         Intent intent = getIntent();
         playerName = intent.getStringExtra("playerName");
@@ -78,16 +77,19 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 String playersString = (String) json.get("value");
                 playOrder = gson.fromJson(playersString, ArrayList.class);
                 if(playOrder.get(0).equals(playerName)){
-                    changeStatus(Status.PLAYING);
+                    setStatus(Status.PLAYING);
+                    for(String playername : players.keySet()){
+                        Log.d("crash", playername);
+                    }
                     phone = players.get(playerName);
                     phone.setPosition(1, 1);
                     gridSystem.addPhone(phone);
                 }
                 else if(playOrder.get(1).equals(playerName)){
-                    changeStatus(Status.TARGET);
+                    setStatus(Status.TARGET);
                 }
                 else{
-                    changeStatus(Status.UNPLAYED);
+                    setStatus(Status.UNPLAYED);
                 }
             }
 
@@ -148,7 +150,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
 
     }
 
-    public void changeStatus(Status status){
+    public void setStatus(Status status){
         currentStatus = status;
         switch (currentStatus){
             case LOADING:

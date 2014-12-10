@@ -46,6 +46,12 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
         hostPhone = new Phone(1);
         gridSystem = GridSystem.getInstance();
 
+        //Delete old keys
+        manager.deleteKeyOfUser("gridSystem", "host");
+        manager.deleteKeyOfUser("players", "host");
+        manager.deleteKeyOfUser("playOrder", "host");
+        manager.deleteKeyOfUser("startGame", "host");
+
 
         //Save gridSystem to server
         Gson gson = new Gson();
@@ -145,6 +151,8 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
                 for(String player : playerNamesTemp){
                     playerNames.add(player);
                 }
+
+                Log.d("here", "here");
                 adapter.notifyDataSetChanged();
             }
 
