@@ -40,6 +40,8 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        tv = (TextView) findViewById(R.id.tv);
+
         setStatus(Status.LOADING);
 
         Intent intent = getIntent();
@@ -53,8 +55,6 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
 
         manager.monitorKeyOfUser("gridSystem", "host");
 
-        tv = (TextView) findViewById(R.id.tv);
-        tv.setText(playerName);
     }
 
     @Override
@@ -72,6 +72,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             if(key.equals("gridSystem") && user.equals("host") && json.get("code").equals("1")){
                 String gridSystemString = (String) json.get("value");
                 gridSystem = gson.fromJson(gridSystemString, GridSystem.class);
+                manager.unlockKeyOfUser("gridSystem", "host");
             }
             else if(key.equals("players") && user.equals("host") && json.get("code").equals("1")){
                 Type linkedHashMapType = new TypeToken<LinkedHashMap<String, Phone>>() {}.getType();
@@ -167,18 +168,23 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         switch (currentStatus){
             case LOADING:
 
+                tv.setText("LOADING");
                 break;
             case PLAYING:
 
+                tv.setText("PLAYING");
                 break;
             case TARGET:
 
+                tv.setText("TARGET");
                 break;
             case PLAYED:
 
+                tv.setText("PLAYED");
                 break;
             case UNPLAYED:
 
+                tv.setText("UNPLAYED");
                 break;
         }
     }
@@ -195,15 +201,30 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
     }
 
     public void rightButton(View view) {
-
+        if (currentStatus.equals(Status.PLAYING)){
+            Phone targetPhone = players.get(playOrder.get(1));
+            targetPhone.setPosition(phone.getX() + 1, phone.getY());
+            gridSystem.addPhone(targetPhone);
+            manager.lockKeyOfUser("gridSystem", "host");
+        }
     }
 
     public void leftButton(View view) {
-
+        if (currentStatus.equals(Status.PLAYING)){
+            Phone targetPhone = players.get(playOrder.get(1));
+            targetPhone.setPosition(phone.getX() - 1, phone.getY());
+            gridSystem.addPhone(targetPhone);
+            manager.lockKeyOfUser("gridSystem", "host");
+        }
     }
 
     public void upButton(View view) {
-
+        if (currentStatus.equals(Status.PLAYING)){
+            Phone targetPhone = players.get(playOrder.get(1));
+            targetPhone.setPosition(phone.getX(), phone.getY() - 1);
+            gridSystem.addPhone(targetPhone);
+            manager.lockKeyOfUser("gridSystem", "host");
+        }
     }
 
     @Override
