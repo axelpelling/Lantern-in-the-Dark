@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -144,17 +145,25 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
         try {
             if(key.equals("players") && user.equals("host")){
                 Log.d(NetworkingManager.TAG_EVENT_COMPLETE, "test1" + json.getJSONArray("records").toString());
-                String playersString = (String) json.getJSONArray("records").getJSONObject(0).get("value");
-                players = gson.fromJson(playersString, LinkedHashMap.class);
 
-                playerNames.clear();
-                String[] playerNamesTemp =  Arrays.asList(players.keySet().toArray()).toArray(new String[players.keySet().toArray().length]);
-                for(String player : playerNamesTemp){
-                    playerNames.add(player);
+                JSONArray records = json.getJSONArray("records");
+                for (int i=0; i <= records.length(); i++){
+                    if(records.getJSONObject(i).get("key").equals("players")){
+                        String playersString = (String) json.getJSONArray("records").getJSONObject(i).get("value");
+                        players = gson.fromJson(playersString, LinkedHashMap.class);
+
+                        playerNames.clear();
+                        String[] playerNamesTemp = Arrays.asList(players.keySet().toArray()).
+                                            toArray(new String[players.keySet().toArray().length]);
+                        for(String player : playerNamesTemp){
+                            playerNames.add(player);
+                        }
+
+                        adapter.notifyDataSetChanged();
+                        break;
+                    }
                 }
 
-                Log.d("here", "here");
-                adapter.notifyDataSetChanged();
             }
 
         } catch (JSONException e) {
