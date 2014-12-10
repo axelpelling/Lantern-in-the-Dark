@@ -27,6 +27,11 @@ public class Phone {
         this.y = y;
     }
 
+    @Override
+    public String toString(){
+        return "ID: " + id + " x: " + x + " y: " + y;
+    }
+
     public int getX() {
         return x;
     }

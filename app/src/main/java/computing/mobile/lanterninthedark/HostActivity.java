@@ -47,13 +47,6 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
         hostPhone = new Phone(1);
         gridSystem = GridSystem.getInstance();
 
-        //Delete old keys
-        manager.deleteKeyOfUser("gridSystem", "host");
-        manager.deleteKeyOfUser("players", "host");
-        manager.deleteKeyOfUser("playOrder", "host");
-        manager.deleteKeyOfUser("startGame", "host");
-
-
         //Save gridSystem to server
         Gson gson = new Gson();
         String gridSystemJson = gson.toJson(gridSystem);
@@ -144,7 +137,7 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
                 "forKeyOfUser: " +  json.toString());
         try {
             if(key.equals("players") && user.equals("host")){
-                Log.d(NetworkingManager.TAG_EVENT_COMPLETE, "test1" + json.getJSONArray("records").toString());
+                Log.d("Records: ", "test1" + json.getJSONArray("records").toString());
 
                 JSONArray records = json.getJSONArray("records");
                 for (int i=0; i <= records.length(); i++){
@@ -187,7 +180,8 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
             manager.ignoreKeyOfUser("players", "host");
 
             ArrayList<String> playOrder = playerNames;
-            Collections.shuffle(playOrder);
+            //Don't randomize order for now
+            //Collections.shuffle(playOrder);
             Gson gson = new Gson();
             String playOrderString = gson.toJson(playOrder);
 

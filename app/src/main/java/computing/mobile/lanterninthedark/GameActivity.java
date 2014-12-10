@@ -8,11 +8,15 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 
@@ -70,17 +74,16 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 gridSystem = gson.fromJson(gridSystemString, GridSystem.class);
             }
             else if(key.equals("players") && user.equals("host") && json.get("code").equals("1")){
+                Type linkedHashMapType = new TypeToken<LinkedHashMap<String, Phone>>() {}.getType();
                 String playersString = (String) json.get("value");
-                players = gson.fromJson(playersString, LinkedHashMap.class);
+                players = gson.fromJson(playersString, linkedHashMapType);
             }
             else if(key.equals("playOrder") && user.equals("host") && json.get("code").equals("1")){
                 String playersString = (String) json.get("value");
                 playOrder = gson.fromJson(playersString, ArrayList.class);
                 if(playOrder.get(0).equals(playerName)){
+
                     setStatus(Status.PLAYING);
-                    for(String playername : players.keySet()){
-                        Log.d("crash", playername);
-                    }
                     phone = players.get(playerName);
                     phone.setPosition(1, 1);
                     gridSystem.addPhone(phone);
@@ -120,10 +123,19 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 "forKeyOfUser: " +  json.toString());
         try {
             if(key.equals("gridSystem") && user.equals("host")){
-                String gridSystemString = (String) json.get("value");
-                gridSystem = gson.fromJson(gridSystemString, GridSystem.class);
-                gridSystem.printGrid();
 
+                Log.d("Records: ", json.getJSONArray("records").toString());
+
+                JSONArray records = json.getJSONArray("records");
+                for (int i=0; i <= records.length(); i++){
+                    if(records.getJSONObject(i).get("key").equals("gridSystem")){
+                        String gridSystemString = (String) json.getJSONArray("records").getJSONObject(i).get("value");
+                        gridSystem = gson.fromJson(gridSystemString, GridSystem.class);
+                        gridSystem.printGrid();
+
+                        break;
+                    }
+                }
             }
 
         } catch (JSONException e) {
