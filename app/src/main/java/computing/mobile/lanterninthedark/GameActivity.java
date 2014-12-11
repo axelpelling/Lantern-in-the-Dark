@@ -217,6 +217,12 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         if (currentStatus.equals(Status.PLAYING)){
             Phone targetPhone = players.get(playOrder.get(1));
             targetPhone.setPosition(phone.getX(), phone.getY() + 1);
+            if(targetPhone.getPlayed()){
+                gridSystem.resetPhonePosition(targetPhone);
+            }
+            else {
+                targetPhone.setPlayed(true);
+            }
             gridSystem.addPhone(targetPhone);
 
             Gson gson = new Gson();
@@ -232,6 +238,12 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         if (currentStatus.equals(Status.PLAYING)){
             Phone targetPhone = players.get(playOrder.get(1));
             targetPhone.setPosition(phone.getX() + 1, phone.getY());
+            if(targetPhone.getPlayed()){
+                gridSystem.resetPhonePosition(targetPhone);
+            }
+            else {
+                targetPhone.setPlayed(true);
+            }
             gridSystem.addPhone(targetPhone);
 
             Gson gson = new Gson();
@@ -246,6 +258,12 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         if (currentStatus.equals(Status.PLAYING)){
             Phone targetPhone = players.get(playOrder.get(1));
             targetPhone.setPosition(phone.getX() - 1, phone.getY());
+            if(targetPhone.getPlayed()){
+                gridSystem.resetPhonePosition(targetPhone);
+            }
+            else {
+                targetPhone.setPlayed(true);
+            }
             gridSystem.addPhone(targetPhone);
 
             Gson gson = new Gson();
@@ -260,6 +278,12 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         if (currentStatus.equals(Status.PLAYING)){
             Phone targetPhone = players.get(playOrder.get(1));
             targetPhone.setPosition(phone.getX(), phone.getY() - 1);
+            if(targetPhone.getPlayed()){
+                gridSystem.resetPhonePosition(targetPhone);
+            }
+            else {
+                targetPhone.setPlayed(true);
+            }
             gridSystem.addPhone(targetPhone);
 
             Gson gson = new Gson();

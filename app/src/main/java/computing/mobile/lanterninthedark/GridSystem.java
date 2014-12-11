@@ -44,6 +44,17 @@ public class GridSystem {
         return phonePosition;
     }
 
+    public void resetPhonePosition(Phone phone){
+        int phoneId = phone.getId();
+        for (int y = 0; y < grid.length; y++) {
+            for (int x = 0; x < grid.length; x++) {
+                if (phoneId == grid[x][y]) {
+                    grid[x][y] = 0;
+                }
+            }
+        }
+    }
+
     public int[][] getGrid(){
         return grid;
     }

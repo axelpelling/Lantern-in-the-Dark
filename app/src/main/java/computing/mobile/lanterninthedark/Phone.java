@@ -10,16 +10,20 @@ public class Phone {
 
     private int id;
 
+    private boolean played;
+
     public Phone(int id){
         x = -1;
         y = -1;
         this.id = id;
+        played  = false;
     }
 
     public Phone(int id, int x, int y){
         this.x = x;
         this.y = y;
         this.id = id;
+        played  = false;
     }
 
     public void setPosition(int x, int y){
@@ -56,5 +60,12 @@ public class Phone {
         this.id = id;
     }
 
+    public boolean getPlayed(){
+        return played;
+    }
+
+    public void setPlayed(boolean input){
+        played = input;
+    }
 
 }
