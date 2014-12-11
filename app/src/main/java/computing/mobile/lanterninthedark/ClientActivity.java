@@ -118,6 +118,7 @@ public class ClientActivity extends Activity implements NetworkingEventHandler {
             if(key.equals("startGame") && user.equals("host")){
                 if(json.getJSONArray("records").getJSONObject(0).getString("value").equals("true")){
                     Log.d("test1", "starting game, client");
+                    manager.ignoreKeyOfUser("startGame", "host");
 
                     Intent intent = new Intent(this, GameActivity.class);
                     intent.putExtra("playerName", clientName);

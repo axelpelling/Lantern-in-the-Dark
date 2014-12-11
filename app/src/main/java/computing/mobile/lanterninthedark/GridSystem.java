@@ -30,6 +30,20 @@ public class GridSystem {
         grid[phone.getX()][phone.getY()] = phone.getId();
     }
 
+    public int[] getPhonePosition(Phone phone) {
+        int phoneId = phone.getId();
+        int[] phonePosition = new int[] {-1,-1};
+        for (int y = 0; y < grid.length; y++) {
+            for (int x = 0; x < grid.length; x++) {
+                if (phoneId == grid[x][y]) {
+                    phonePosition[0] = x;
+                    phonePosition[1] = y;
+                }
+            }
+        }
+        return phonePosition;
+    }
+
     public int[][] getGrid(){
         return grid;
     }
@@ -37,10 +51,9 @@ public class GridSystem {
     public void printGrid(){
         int[] temp = new int[grid.length];
         Log.d("printGrid", "Grid:");
-        for (int j = 0; j < grid.length; j++){
-            for (int i = 0; i < grid.length ; i++){
-                temp[i] = grid[i][j];
-
+        for (int y = 0; y < grid.length; y++) {
+            for (int x = 0; x < grid.length; x++) {
+                temp[x] = grid[x][y];
             }
             Log.d("printGrid", "" + Arrays.toString(temp));
 

@@ -77,6 +77,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 Type linkedHashMapType = new TypeToken<LinkedHashMap<String, Phone>>() {}.getType();
                 String playersString = (String) json.get("value");
                 players = gson.fromJson(playersString, linkedHashMapType);
+                phone = players.get(playerName);
             }
             else if(key.equals("playOrder") && user.equals("host") && json.get("code").equals("1")){
                 String playersString = (String) json.get("value");
@@ -85,7 +86,6 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 //Initial check of play order
                 if(playOrder.get(0).equals(playerName)){
                     setStatus(Status.PLAYING);
-                    phone = players.get(playerName);
                     phone.setPosition(1, 1);
                     gridSystem.addPhone(phone);
                 }
@@ -130,12 +130,18 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 JSONArray records = json.getJSONArray("records");
                 for (int i=0; i <= records.length(); i++){
                     if(records.getJSONObject(i).get("key").equals("gridSystem")){
-                        String gridSystemString = (String) json.getJSONArray("records").getJSONObject(i).get("value");
+                        String gridSystemString = (String) records.getJSONObject(i).get("value");
                         gridSystem = gson.fromJson(gridSystemString, GridSystem.class);
                         gridSystem.printGrid();
 
                         break;
                     }
+                }
+
+                //Update phone position
+                int[] phonePosition = gridSystem.getPhonePosition(phone);
+                if(phonePosition[0] != -1 && phonePosition[1] != -1){
+                    phone.setPosition(phonePosition[0], phonePosition[1]);
                 }
 
                 //Update play order
