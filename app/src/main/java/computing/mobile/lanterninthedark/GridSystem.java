@@ -2,6 +2,8 @@ package computing.mobile.lanterninthedark;
 
 import android.util.Log;
 
+import java.util.Arrays;
+
 /**
  * Created by Axel on 2014-12-03.
  */
@@ -33,14 +35,14 @@ public class GridSystem {
     }
 
     public void printGrid(){
-        int[] temp = new int[5];
+        int[] temp = new int[grid.length];
         Log.d("printGrid", "Grid:");
-        for (int j = 0; j <= 5; j++){
-            for (int i = 0; i <= 5 ; i++){
+        for (int j = 0; j < grid.length; j++){
+            for (int i = 0; i < grid.length ; i++){
                 temp[i] = grid[i][j];
 
             }
-            Log.d("printGrid", "" + temp);
+            Log.d("printGrid", "" + Arrays.toString(temp));
 
         }
     }
