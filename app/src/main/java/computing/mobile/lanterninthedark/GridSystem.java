@@ -33,10 +33,10 @@ public class GridSystem {
     }
 
     public void printGrid(){
-        int[] temp = new int[grid.length];
+        int[] temp = new int[5];
         Log.d("printGrid", "Grid:");
-        for (int j = 0; j <= grid.length; j++){
-            for (int i = 0; i <= grid.length ; i++){
+        for (int j = 0; j <= 5; j++){
+            for (int i = 0; i <= 5 ; i++){
                 temp[i] = grid[i][j];
 
             }

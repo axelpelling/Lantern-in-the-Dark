@@ -156,7 +156,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             }
             else if (key.equals("gridSystem") && user.equals("host") && json.get("code").equals("2")) {
                 manager.lockKeyOfUser("gridSystem", "host");
-                Log.d("lockedGridSystem", "Unlocked grid system");
+                Log.d("lockedGridSystem", "Grid system was already in use");
             }
 
         } catch (JSONException e) {
