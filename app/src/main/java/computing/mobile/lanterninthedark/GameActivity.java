@@ -59,8 +59,8 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
 
     @Override
     public void savedValueForKeyOfUser(JSONObject json, String key, String user) {
-        if(key.equals("target") && user.equals("host")){
-            manager.unlockKeyOfUser("target", "host");
+        if(key.equals("gridSystem") && user.equals("host")) {
+            manager.unlockKeyOfUser("gridSystem", "host");
         }
     }
 
@@ -72,7 +72,6 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             if(key.equals("gridSystem") && user.equals("host") && json.get("code").equals("1")){
                 String gridSystemString = (String) json.get("value");
                 gridSystem = gson.fromJson(gridSystemString, GridSystem.class);
-                manager.unlockKeyOfUser("gridSystem", "host");
             }
             else if(key.equals("players") && user.equals("host") && json.get("code").equals("1")){
                 Type linkedHashMapType = new TypeToken<LinkedHashMap<String, Phone>>() {}.getType();
@@ -137,6 +136,8 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                         break;
                     }
                 }
+
+
             }
 
         } catch (JSONException e) {
@@ -151,6 +152,11 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 Gson gson = new Gson();
                 String gridSystemString = gson.toJson(gridSystem);
                 manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemString);
+                Log.d("lockedGridSystem", "Locked grid system");
+            }
+            else if (key.equals("gridSystem") && user.equals("host") && json.get("code").equals("2")) {
+                manager.lockKeyOfUser("gridSystem", "host");
+                Log.d("lockedGridSystem", "Unlocked grid system");
             }
 
         } catch (JSONException e) {
