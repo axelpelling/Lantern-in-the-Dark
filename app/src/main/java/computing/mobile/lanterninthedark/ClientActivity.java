@@ -36,7 +36,8 @@ public class ClientActivity extends Activity implements NetworkingEventHandler {
 
         manager = new NetworkingManager(this, "Group5", clientName);
 
-        manager.lockKeyOfUser("players", "host");
+        manager.loadValueForKeyOfUser("players", "host");
+        //manager.lockKeyOfUser("players", "host");
 
         manager.monitorKeyOfUser("startGame", "host");
 
@@ -150,7 +151,7 @@ public class ClientActivity extends Activity implements NetworkingEventHandler {
 
     }
 
-    @Override
+    /*@Override
     protected void onPause(){
         super.onPause();
 
@@ -162,5 +163,5 @@ public class ClientActivity extends Activity implements NetworkingEventHandler {
         super.onResume();
 
         manager.monitorKeyOfUser("startGame", "host");
-    }
+    }*/
 }

@@ -194,7 +194,7 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
         }
     }
 
-    @Override
+    /*@Override
     protected void onPause(){
         super.onPause();
 
@@ -206,5 +206,5 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
         super.onResume();
 
         manager.monitorKeyOfUser("players", "host");
-    }
+    }*/
 }
