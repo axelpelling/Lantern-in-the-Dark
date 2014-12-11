@@ -81,8 +81,9 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             else if(key.equals("playOrder") && user.equals("host") && json.get("code").equals("1")){
                 String playersString = (String) json.get("value");
                 playOrder = gson.fromJson(playersString, ArrayList.class);
-                if(playOrder.get(0).equals(playerName)){
 
+                //Initial check of play order
+                if(playOrder.get(0).equals(playerName)){
                     setStatus(Status.PLAYING);
                     phone = players.get(playerName);
                     phone.setPosition(1, 1);
@@ -137,7 +138,20 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                     }
                 }
 
+                //Update play order
+                String justPlayed = playOrder.get(0);
+                playOrder.remove(0);
+                playOrder.add(justPlayed);
 
+                if(playOrder.get(0).equals(playerName)){
+                    setStatus(Status.PLAYING);
+                }
+                else if(playOrder.get(1).equals(playerName)){
+                    setStatus(Status.TARGET);
+                }
+                else{
+                    setStatus(Status.UNPLAYED);
+                }
             }
 
         } catch (JSONException e) {
