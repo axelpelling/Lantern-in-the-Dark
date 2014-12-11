@@ -149,9 +149,6 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 else if(playOrder.get(1).equals(playerName)){
                     setStatus(Status.TARGET);
                 }
-                else{
-                    setStatus(Status.UNPLAYED);
-                }
             }
 
         } catch (JSONException e) {
@@ -215,7 +212,12 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             Phone targetPhone = players.get(playOrder.get(1));
             targetPhone.setPosition(phone.getX(), phone.getY() + 1);
             gridSystem.addPhone(targetPhone);
-            manager.lockKeyOfUser("gridSystem", "host");
+
+            Gson gson = new Gson();
+            String gridSystemString = gson.toJson(gridSystem);
+            manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemString);
+            //manager.lockKeyOfUser("gridSystem", "host");
+            setStatus(Status.PLAYED);
         }
 
     }
@@ -225,7 +227,12 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             Phone targetPhone = players.get(playOrder.get(1));
             targetPhone.setPosition(phone.getX() + 1, phone.getY());
             gridSystem.addPhone(targetPhone);
-            manager.lockKeyOfUser("gridSystem", "host");
+
+            Gson gson = new Gson();
+            String gridSystemString = gson.toJson(gridSystem);
+            manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemString);
+            //manager.lockKeyOfUser("gridSystem", "host");
+            setStatus(Status.PLAYED);
         }
     }
 
@@ -234,7 +241,12 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             Phone targetPhone = players.get(playOrder.get(1));
             targetPhone.setPosition(phone.getX() - 1, phone.getY());
             gridSystem.addPhone(targetPhone);
-            manager.lockKeyOfUser("gridSystem", "host");
+
+            Gson gson = new Gson();
+            String gridSystemString = gson.toJson(gridSystem);
+            manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemString);
+            //manager.lockKeyOfUser("gridSystem", "host");
+            setStatus(Status.PLAYED);
         }
     }
 
@@ -243,11 +255,16 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             Phone targetPhone = players.get(playOrder.get(1));
             targetPhone.setPosition(phone.getX(), phone.getY() - 1);
             gridSystem.addPhone(targetPhone);
-            manager.lockKeyOfUser("gridSystem", "host");
+
+            Gson gson = new Gson();
+            String gridSystemString = gson.toJson(gridSystem);
+            manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemString);
+            //manager.lockKeyOfUser("gridSystem", "host");
+            setStatus(Status.PLAYED);
         }
     }
 
-    @Override
+   /* @Override
     protected void onPause(){
         super.onPause();
 
@@ -259,5 +276,5 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         super.onResume();
 
         manager.monitorKeyOfUser("gridSystem", "host");
-    }
+    }*/
 }
