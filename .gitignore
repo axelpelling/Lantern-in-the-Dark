@@ -32,3 +32,5 @@ proguard/
 # Log Files
 *.log
 *.db
+.idea/gradle.xml
+.idea/gradle.xml
