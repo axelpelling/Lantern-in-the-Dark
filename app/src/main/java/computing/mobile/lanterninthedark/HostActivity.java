@@ -184,8 +184,16 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
             //Collections.shuffle(playOrder);
             Gson gson = new Gson();
             String playOrderString = gson.toJson(playOrder);
-
             manager.saveValueForKeyOfUser("playOrder", "host", playOrderString);
+
+            //Linked tree map error thing again
+            players.get(playOrder.get(0)).setPosition(1, 1);
+            players.get(playOrder.get(0)).setPlayed(true);
+
+            String playerHashMapString = gson.toJson(players);
+            manager.saveValueForKeyOfUser("players", "host", playerHashMapString);
+
+
         }
         else{
             int duration = Toast.LENGTH_SHORT;

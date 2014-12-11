@@ -86,7 +86,6 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 //Initial check of play order
                 if(playOrder.get(0).equals(playerName)){
                     setStatus(Status.PLAYING);
-                    phone.setPosition(1, 1);
                     gridSystem.addPhone(phone);
                 }
                 else if(playOrder.get(1).equals(playerName)){
