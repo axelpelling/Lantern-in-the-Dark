@@ -20,7 +20,6 @@ import java.util.LinkedHashMap;
 public class ClientActivity extends Activity implements NetworkingEventHandler {
 
     private NetworkingManager manager;
-    private GridSystem gridSystem;
     private LinkedHashMap<String, Phone> players;
     private Phone clientPhone;
     private String clientName;

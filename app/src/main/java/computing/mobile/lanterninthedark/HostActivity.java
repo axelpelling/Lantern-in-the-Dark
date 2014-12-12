@@ -13,11 +13,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -142,8 +144,9 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
                 JSONArray records = json.getJSONArray("records");
                 for (int i=0; i <= records.length(); i++){
                     if(records.getJSONObject(i).get("key").equals("players")){
+                        Type linkedHashMapType = new TypeToken<LinkedHashMap<String, Phone>>() {}.getType();
                         String playersString = (String) json.getJSONArray("records").getJSONObject(i).get("value");
-                        players = gson.fromJson(playersString, LinkedHashMap.class);
+                        players = gson.fromJson(playersString, linkedHashMapType);
 
                         playerNames.clear();
                         String[] playerNamesTemp = Arrays.asList(players.keySet().toArray()).
@@ -186,8 +189,8 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
             String playOrderString = gson.toJson(playOrder);
             manager.saveValueForKeyOfUser("playOrder", "host", playOrderString);
 
-            //Linked tree map error thing again
-            players.get(playOrder.get(0)).setPosition(1, 1);
+           // Set the first phone's position
+            players.get(playOrder.get(0)).setPosition(1, 1);//Position should be randomized
             players.get(playOrder.get(0)).setPlayed(true);
 
             String playerHashMapString = gson.toJson(players);
