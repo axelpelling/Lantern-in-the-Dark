@@ -16,6 +16,7 @@
     <!-- Host Activity Strings -->
     <string name="HostTextViewString">You are the host. Press start game when everyone has connected.</string>
     <string name="HostButtonString">Start</string>
+    <string name="TwoOrMorePlayersRequiredString">More than 1 player required to start.</string>
 
     <!-- Client Activity Strings -->
     <string name="ClientTextViewString">Waiting for the host to start the game.</string>

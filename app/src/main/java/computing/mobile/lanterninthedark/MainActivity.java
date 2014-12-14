@@ -28,11 +28,6 @@ public class MainActivity extends ActionBarActivity implements NetworkingEventHa
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-        Phone phone = new Phone(1, 3, 2);
-
-        gridSystem = GridSystem.getInstance();
-        gridSystem.addPhone(phone);
-
 		
 		manager = new NetworkingManager(this, "group", "me");
 		msgField = (EditText) findViewById(R.id.sendMsgEditText);

@@ -47,7 +47,7 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
 
         manager = new NetworkingManager(this, "Group5", hostName);
         hostPhone = new Phone(1);
-        gridSystem = GridSystem.getInstance();
+        gridSystem = new GridSystem(5, 5, 1, 0);
 
         //Save gridSystem to server
         Gson gson = new Gson();
@@ -200,7 +200,7 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
         }
         else{
             int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(this.getApplicationContext(), "More than 1 player required to start.", duration);
+            Toast toast = Toast.makeText(this.getApplicationContext(), R.string.TwoOrMorePlayersRequiredString, duration);
             toast.show();
         }
     }

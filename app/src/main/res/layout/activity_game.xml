@@ -16,51 +16,51 @@
         />
 
     <Button
+        android:id="@+id/upButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="UP"
-        android:id="@+id/upButton"
         android:layout_below="@+id/tv"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="34dp"
-        android:onClick="upButton"
+        android:onClick="goUpButton"
         />
 
     <Button
+        android:id="@+id/leftButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="LEFT"
-        android:id="@+id/leftButton"
         android:layout_below="@+id/upButton"
         android:layout_toLeftOf="@+id/upButton"
         android:layout_toStartOf="@+id/upButton"
         android:layout_marginTop="85dp"
-        android:onClick="leftButton"
+        android:onClick="goLeftButton"
         />
 
     <Button
+        android:id="@+id/rightButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="RIGHT"
-        android:id="@+id/rightButton"
         android:layout_alignBottom="@+id/leftButton"
         android:layout_toRightOf="@+id/upButton"
         android:layout_toEndOf="@+id/upButton"
-        android:onClick="rightButton"
+        android:onClick="goRightButton"
         />
 
     <Button
+        android:id="@+id/downButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="DOWN"
-        android:id="@+id/downButton"
         android:layout_toStartOf="@+id/rightButton"
         android:layout_toLeftOf="@+id/rightButton"
         android:layout_marginTop="103dp"
         android:layout_below="@+id/leftButton"
         android:layout_toRightOf="@+id/leftButton"
         android:layout_toEndOf="@+id/leftButton"
-        android:onClick="downButton"
+        android:onClick="goDownButton"
         />
 
 </RelativeLayout>

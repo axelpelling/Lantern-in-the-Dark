@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -22,18 +23,26 @@ import java.util.LinkedHashMap;
 
 public class GameActivity extends Activity implements NetworkingEventHandler {
 
-    private enum Status {TARGET, PLAYING, PLAYED, UNPLAYED, LOADING}
+    //Statuses of phones
+    private enum Status {TARGET, PLAYING, PLAYED, UNPLAYED, LOADING, FINISHED}
     private Status currentStatus;
 
+    //Network manager
     private NetworkingManager manager;
 
+    //Game elements and stuff
     private Phone phone;
     private GridSystem gridSystem;
     private LinkedHashMap<String, Phone> players;
     private ArrayList<String> playOrder;
     private String playerName;
 
+    //Android Views and stuff
     private TextView tv;
+    private Button upButton;
+    private Button downButton;
+    private Button leftButton;
+    private Button rightButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +50,10 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         setContentView(R.layout.activity_game);
 
         tv = (TextView) findViewById(R.id.tv);
+        upButton = (Button) findViewById(R.id.upButton);
+        downButton = (Button) findViewById(R.id.downButton);
+        leftButton = (Button) findViewById(R.id.leftButton);
+        rightButton = (Button) findViewById(R.id.rightButton);
 
         setStatus(Status.LOADING);
 
@@ -148,7 +161,12 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 playOrder.remove(0);
                 playOrder.add(justPlayed);
 
-                if(playOrder.get(0).equals(playerName)){
+                //Check if game is finished and update status
+                //Otherwise check if your phone is next in playOrder and change status accordingly
+                if(gridSystem.isGameFinished()){
+                    setStatus(Status.FINISHED);
+                }
+                else if(playOrder.get(0).equals(playerName)){
                     setStatus(Status.PLAYING);
                 }
                 else if(playOrder.get(1).equals(playerName)){
@@ -194,6 +212,9 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 break;
             case PLAYING:
 
+                //Checks if you are at the edge of the grid or if there are other phones near you
+                //and sets arrow visibilities
+                setArrowVisibilities();
                 tv.setText("PLAYING");
                 break;
             case TARGET:
@@ -208,11 +229,44 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
 
                 tv.setText("UNPLAYED");
                 break;
+            case FINISHED:
+
+                tv.setText("GAME FINISHED");
+                Log.d("finished", "game finished");
+                manager.ignoreKeyOfUser("gridSystem", "host");
+                break;
         }
     }
 
 
-    public void downButton(View view) {
+    public void goUpButton(View view) {
+        if (currentStatus.equals(Status.PLAYING)){
+            //Get targetPhone and set its position to the clicked direction
+            Phone targetPhone = players.get(playOrder.get(1));
+            targetPhone.setPosition(phone.getX(), phone.getY() - 1);
+            //Set the phone's old position to 0 if it has been played before
+            if(targetPhone.getPlayed()){
+                gridSystem.resetPhonePosition(targetPhone);
+            }
+            else {
+                targetPhone.setPlayed(true);
+            }
+
+            //Check if the targetPhone has reached the Sven's home then add the phone to the grid
+            gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
+            gridSystem.addPhone(targetPhone);
+
+            //Lastly, update the server's gridSystem
+            Gson gson = new Gson();
+            String gridSystemString = gson.toJson(gridSystem);
+            manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemString);
+            //manager.lockKeyOfUser("gridSystem", "host");
+            setStatus(Status.PLAYED);
+        }
+    }
+
+
+    public void goDownButton(View view) {
         if (currentStatus.equals(Status.PLAYING)){
             Phone targetPhone = players.get(playOrder.get(1));
             targetPhone.setPosition(phone.getX(), phone.getY() + 1);
@@ -222,6 +276,8 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             else {
                 targetPhone.setPlayed(true);
             }
+
+            gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
 
             Gson gson = new Gson();
@@ -230,10 +286,10 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             //manager.lockKeyOfUser("gridSystem", "host");
             setStatus(Status.PLAYED);
         }
-
     }
 
-    public void rightButton(View view) {
+
+    public void goRightButton(View view) {
         if (currentStatus.equals(Status.PLAYING)){
             Phone targetPhone = players.get(playOrder.get(1));
             targetPhone.setPosition(phone.getX() + 1, phone.getY());
@@ -243,6 +299,8 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             else {
                 targetPhone.setPlayed(true);
             }
+
+            gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
 
             Gson gson = new Gson();
@@ -253,7 +311,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         }
     }
 
-    public void leftButton(View view) {
+    public void goLeftButton(View view) {
         if (currentStatus.equals(Status.PLAYING)){
             Phone targetPhone = players.get(playOrder.get(1));
             targetPhone.setPosition(phone.getX() - 1, phone.getY());
@@ -263,6 +321,8 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             else {
                 targetPhone.setPlayed(true);
             }
+
+            gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
 
             Gson gson = new Gson();
@@ -273,23 +333,44 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         }
     }
 
-    public void upButton(View view) {
-        if (currentStatus.equals(Status.PLAYING)){
-            Phone targetPhone = players.get(playOrder.get(1));
-            targetPhone.setPosition(phone.getX(), phone.getY() - 1);
-            if(targetPhone.getPlayed()){
-                gridSystem.resetPhonePosition(targetPhone);
-            }
-            else {
-                targetPhone.setPlayed(true);
-            }
-            gridSystem.addPhone(targetPhone);
 
-            Gson gson = new Gson();
-            String gridSystemString = gson.toJson(gridSystem);
-            manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemString);
-            //manager.lockKeyOfUser("gridSystem", "host");
-            setStatus(Status.PLAYED);
+
+    public void setArrowVisibilities(){
+        int[][] grid = gridSystem.getGrid();
+        int gridLength = grid.length;
+        int x = phone.getX();
+        int y = phone.getY();
+
+        //Check up button
+        if( y - 1 < 0 || (grid[x][y-1] != 0 && grid[x][y-1] != 9001)){
+            upButton.setVisibility(View.INVISIBLE);
+        }
+        else {
+            upButton.setVisibility(View.VISIBLE);
+        }
+
+        //Check downButton
+        if( y + 1 >= gridLength || (grid[x][y+1] != 0 && grid[x][y+1] != 9001)){
+            downButton.setVisibility(View.INVISIBLE);
+        }
+        else {
+            downButton.setVisibility(View.VISIBLE);
+        }
+
+        //Check right button
+        if(x + 1 >= gridLength || (grid[x+1][y] != 0 && grid[x+1][y] != 9001)){
+            rightButton.setVisibility(View.INVISIBLE);
+        }
+        else {
+            rightButton.setVisibility(View.VISIBLE);
+        }
+
+        //Check left button
+        if(x - 1 < 0 || (grid[x-1][y] != 0 && grid[x-1][y] != 9001)){
+            leftButton.setVisibility(View.INVISIBLE);
+        }
+        else {
+            leftButton.setVisibility(View.VISIBLE);
         }
     }
 

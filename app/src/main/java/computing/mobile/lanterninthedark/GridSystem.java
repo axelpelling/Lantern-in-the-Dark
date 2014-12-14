@@ -10,20 +10,17 @@ import java.util.Arrays;
 public class GridSystem {
 
     private int[][] grid;
+    private boolean gameFinished;
 
-    private static GridSystem ourInstance = new GridSystem();
-
-    public static GridSystem getInstance() {
-        return ourInstance;
-    }
-
-    private GridSystem() {
-        grid = new int[5][5];
+    public GridSystem(int x, int y, int homeX, int homeY) {
+        grid = new int[x][y];
         for(int i = 0; i < grid.length; i++){
             for(int j = 0; j < grid[i].length; j++){
                 grid[i][j] = 0;
             }
         }
+        grid[homeX][homeY] = 9001;
+        gameFinished = false;
     }
 
     public void addPhone(Phone phone){
@@ -70,4 +67,16 @@ public class GridSystem {
 
         }
     }
+
+    public boolean checkGameFinished(int x, int y){
+        if (grid[x][y] == 9001){
+            gameFinished = true;
+        }
+        return gameFinished;
+    }
+
+    public boolean isGameFinished(){
+        return gameFinished;
+    }
+
 }
