@@ -273,7 +273,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             gridSystem.addPhone(targetPhone);
 
             //Animate the character to turn
-            Animation upAnimation = new RotateAnimation(0.0f, 360.0f, characterImageView.getPivotX(), characterImageView.getPivotY());
+            Animation upAnimation = new RotateAnimation(characterImageView.getRotation(), 0.0f, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
 
             // Set the animation's parameters
             upAnimation.setDuration(1000);
@@ -303,6 +303,18 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
 
+            //Animate the character to turn
+            Animation downAnimation = new RotateAnimation(gridSystem.getRotation(), 180.0f, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
+
+            // Set the animation's parameters
+            downAnimation.setDuration(1000);
+            downAnimation.setRepeatCount(0);
+            downAnimation.setFillAfter(true);
+
+            characterImageView.setAnimation(downAnimation);
+
+            gridSystem.setRotation(characterImageView.getRotation());
+
             manager.lockKeyOfUser("gridSystem", "host");
             setStatus(Status.PLAYED);
         }
@@ -323,6 +335,16 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
 
+            //Animate the character to turn
+            Animation rightAnimation = new RotateAnimation(characterImageView.getRotation(), 90.0f, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
+
+            // Set the animation's parameters
+            rightAnimation.setDuration(1000);
+            rightAnimation.setRepeatCount(0);
+            rightAnimation.setFillAfter(true);
+
+            characterImageView.setAnimation(rightAnimation);
+
             manager.lockKeyOfUser("gridSystem", "host");
             setStatus(Status.PLAYED);
         }
@@ -338,6 +360,16 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             else {
                 targetPhone.setPlayed(true);
             }
+
+            //Animate the character to turn
+            Animation leftAnimation = new RotateAnimation(characterImageView.getRotation(), -90.0f, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
+
+            // Set the animation's parameters
+            leftAnimation.setDuration(1000);
+            leftAnimation.setRepeatCount(0);
+            leftAnimation.setFillAfter(true);
+
+            characterImageView.setAnimation(leftAnimation);
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);

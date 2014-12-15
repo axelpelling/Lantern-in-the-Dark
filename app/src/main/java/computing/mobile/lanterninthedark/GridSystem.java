@@ -11,6 +11,7 @@ public class GridSystem {
 
     private int[][] grid;
     private boolean gameFinished;
+    private float rotation = 0;
 
     public GridSystem(int x, int y, int homeX, int homeY) {
         grid = new int[x][y];
@@ -54,6 +55,14 @@ public class GridSystem {
 
     public int[][] getGrid(){
         return grid;
+    }
+
+    public float getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
     }
 
     public void printGrid(){
