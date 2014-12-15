@@ -181,7 +181,7 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
     }
 
     public void startGame(View view) {
-        if(playerNames.size() >= 2){
+        if(playerNames.size() >= 1){
             Log.d("test1", "starting game, host");
             manager.ignoreKeyOfUser("players", "host");
 
