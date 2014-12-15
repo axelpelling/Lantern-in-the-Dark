@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -48,6 +49,8 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         tv = (TextView) findViewById(R.id.tv);
         upButton = (Button) findViewById(R.id.upButton);
@@ -257,10 +260,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             gridSystem.addPhone(targetPhone);
 
             //Lastly, update the server's gridSystem
-            Gson gson = new Gson();
-            String gridSystemString = gson.toJson(gridSystem);
-            manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemString);
-            //manager.lockKeyOfUser("gridSystem", "host");
+            manager.lockKeyOfUser("gridSystem", "host");
             setStatus(Status.PLAYED);
         }
     }
@@ -280,10 +280,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
 
-            Gson gson = new Gson();
-            String gridSystemString = gson.toJson(gridSystem);
-            manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemString);
-            //manager.lockKeyOfUser("gridSystem", "host");
+            manager.lockKeyOfUser("gridSystem", "host");
             setStatus(Status.PLAYED);
         }
     }
@@ -303,10 +300,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
 
-            Gson gson = new Gson();
-            String gridSystemString = gson.toJson(gridSystem);
-            manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemString);
-            //manager.lockKeyOfUser("gridSystem", "host");
+            manager.lockKeyOfUser("gridSystem", "host");
             setStatus(Status.PLAYED);
         }
     }
@@ -325,10 +319,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
 
-            Gson gson = new Gson();
-            String gridSystemString = gson.toJson(gridSystem);
-            manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemString);
-            //manager.lockKeyOfUser("gridSystem", "host");
+            manager.lockKeyOfUser("gridSystem", "host");
             setStatus(Status.PLAYED);
         }
     }

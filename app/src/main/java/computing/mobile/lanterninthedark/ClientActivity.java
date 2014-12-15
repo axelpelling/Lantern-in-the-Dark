@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import com.google.gson.Gson;
 
@@ -29,14 +30,14 @@ public class ClientActivity extends Activity implements NetworkingEventHandler {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         Intent intent = getIntent();
         clientName = intent.getStringExtra("clientName");
 
         manager = new NetworkingManager(this, "Group5", clientName);
 
-        manager.loadValueForKeyOfUser("players", "host");
-        //manager.lockKeyOfUser("players", "host");
+        manager.lockKeyOfUser("players", "host");
 
         manager.monitorKeyOfUser("startGame", "host");
 
