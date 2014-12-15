@@ -212,6 +212,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         switch (currentStatus){
             case LOADING:
 
+                hideArrows();
                 tv.setText("LOADING");
                 break;
             case PLAYING:
@@ -223,6 +224,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 break;
             case TARGET:
 
+                hideArrows();
                 tv.setText("TARGET");
                 break;
             case PLAYED:
@@ -231,10 +233,12 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 break;
             case UNPLAYED:
 
+                hideArrows();
                 tv.setText("UNPLAYED");
                 break;
             case FINISHED:
 
+                hideArrows();
                 tv.setText("GAME FINISHED");
                 Log.d("finished", "game finished");
                 manager.ignoreKeyOfUser("gridSystem", "host");
@@ -364,6 +368,13 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         else {
             leftButton.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void hideArrows(){
+        upButton.setVisibility(View.INVISIBLE);
+        downButton.setVisibility(View.INVISIBLE);
+        rightButton.setVisibility(View.INVISIBLE);
+        leftButton.setVisibility(View.INVISIBLE);
     }
 
    /* @Override

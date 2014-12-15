@@ -5,66 +5,71 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/background_1"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="computing.mobile.lanterninthedark.GameActivity">
 
     <TextView
         android:id="@+id/tv"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000"
         android:text="@string/hello_world"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
 
+
+    <ImageView
+        android:id="@+id/characterImageView"
+        android:src="@drawable/character"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
     <ImageButton
-        android:src="@drawable/arrow_up"
         android:id="@+id/upButton"
+        android:src="@drawable/arrow_up"
+        android:background="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="UP"
-        android:layout_below="@+id/tv"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="34dp"
         android:onClick="goUpButton"
-        />
+        android:layout_alignTop="@+id/characterImageView"
+        android:layout_alignLeft="@+id/downButton"
+        android:layout_alignStart="@+id/downButton" />
 
     <ImageButton
-        android:src="@drawable/arrow_left"
         android:id="@+id/leftButton"
+        android:src="@drawable/arrow_left"
+        android:background="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LEFT"
-        android:layout_below="@+id/upButton"
-        android:layout_toLeftOf="@+id/upButton"
-        android:layout_toStartOf="@+id/upButton"
-        android:layout_marginTop="85dp"
         android:onClick="goLeftButton"
-        />
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/characterImageView"
+        android:layout_alignStart="@+id/characterImageView" />
 
     <ImageButton
-        android:src="@drawable/arrow_right"
         android:id="@+id/rightButton"
+        android:src="@drawable/arrow_right"
+        android:background="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="RIGHT"
-        android:layout_alignBottom="@+id/leftButton"
-        android:layout_toRightOf="@+id/upButton"
-        android:layout_toEndOf="@+id/upButton"
         android:onClick="goRightButton"
-        />
+        android:layout_alignTop="@+id/leftButton"
+        android:layout_alignRight="@+id/characterImageView"
+        android:layout_alignEnd="@+id/characterImageView" />
 
     <ImageButton
-        android:src="@drawable/arrow_down"
         android:id="@+id/downButton"
+        android:src="@drawable/arrow_down"
+        android:background="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DOWN"
-        android:layout_toStartOf="@+id/rightButton"
-        android:layout_toLeftOf="@+id/rightButton"
-        android:layout_marginTop="103dp"
-        android:layout_below="@+id/leftButton"
-        android:layout_toRightOf="@+id/leftButton"
-        android:layout_toEndOf="@+id/leftButton"
         android:onClick="goDownButton"
-        />
+
+        android:layout_alignBottom="@+id/characterImageView"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
