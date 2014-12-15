@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -40,10 +41,10 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
 
     //Android Views and stuff
     private TextView tv;
-    private Button upButton;
-    private Button downButton;
-    private Button leftButton;
-    private Button rightButton;
+    private ImageButton upButton;
+    private ImageButton downButton;
+    private ImageButton leftButton;
+    private ImageButton rightButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +54,10 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         tv = (TextView) findViewById(R.id.tv);
-        upButton = (Button) findViewById(R.id.upButton);
-        downButton = (Button) findViewById(R.id.downButton);
-        leftButton = (Button) findViewById(R.id.leftButton);
-        rightButton = (Button) findViewById(R.id.rightButton);
+        upButton = (ImageButton) findViewById(R.id.upButton);
+        downButton = (ImageButton) findViewById(R.id.downButton);
+        leftButton = (ImageButton) findViewById(R.id.leftButton);
+        rightButton = (ImageButton) findViewById(R.id.rightButton);
 
         setStatus(Status.LOADING);
 

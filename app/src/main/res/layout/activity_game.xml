@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         />
 
-    <Button
+    <ImageButton
+        android:src="@drawable/arrow_up"
         android:id="@+id/upButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,7 +27,8 @@
         android:onClick="goUpButton"
         />
 
-    <Button
+    <ImageButton
+        android:src="@drawable/arrow_left"
         android:id="@+id/leftButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,7 +40,8 @@
         android:onClick="goLeftButton"
         />
 
-    <Button
+    <ImageButton
+        android:src="@drawable/arrow_right"
         android:id="@+id/rightButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,7 +52,8 @@
         android:onClick="goRightButton"
         />
 
-    <Button
+    <ImageButton
+        android:src="@drawable/arrow_down"
         android:id="@+id/downButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
