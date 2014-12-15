@@ -36,8 +36,7 @@
 
     <ImageButton
         android:id="@+id/upButton"
-        android:src="@drawable/arrow_up"
-        android:background="@null"
+        android:background="@drawable/arrow_button_design_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="goUpButton"
@@ -47,8 +46,7 @@
 
     <ImageButton
         android:id="@+id/leftButton"
-        android:src="@drawable/arrow_left"
-        android:background="@null"
+        android:background="@drawable/arrow_button_design_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="goLeftButton"
@@ -58,8 +56,7 @@
 
     <ImageButton
         android:id="@+id/rightButton"
-        android:src="@drawable/arrow_right"
-        android:background="@null"
+        android:background="@drawable/arrow_button_design_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="goRightButton"
@@ -69,8 +66,7 @@
 
     <ImageButton
         android:id="@+id/downButton"
-        android:src="@drawable/arrow_down"
-        android:background="@null"
+        android:background="@drawable/arrow_button_design_down"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="goDownButton"

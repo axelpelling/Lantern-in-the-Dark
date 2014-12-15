@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -45,6 +48,8 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
     private ImageButton downButton;
     private ImageButton leftButton;
     private ImageButton rightButton;
+    private ImageView characterImageView;
+    private ImageView gradientImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,9 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         downButton = (ImageButton) findViewById(R.id.downButton);
         leftButton = (ImageButton) findViewById(R.id.leftButton);
         rightButton = (ImageButton) findViewById(R.id.rightButton);
+
+        characterImageView = (ImageView) findViewById(R.id.characterImageView);
+        gradientImageView = (ImageView) findViewById(R.id.gradientImageView);
 
         setStatus(Status.LOADING);
 
@@ -263,6 +271,16 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             //Check if the targetPhone has reached the Sven's home then add the phone to the grid
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
+
+            //Animate the character to turn
+            Animation upAnimation = new RotateAnimation(0.0f, 360.0f, characterImageView.getPivotX(), characterImageView.getPivotY());
+
+            // Set the animation's parameters
+            upAnimation.setDuration(1000);
+            upAnimation.setRepeatCount(0);
+            upAnimation.setFillAfter(true);
+
+            characterImageView.setAnimation(upAnimation);
 
             //Lastly, update the server's gridSystem
             manager.lockKeyOfUser("gridSystem", "host");
