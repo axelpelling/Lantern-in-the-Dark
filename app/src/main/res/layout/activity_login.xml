@@ -2,14 +2,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/menu_background"
     tools:context=".LoginActivity">
+
 
     <TextView
         android:id="@+id/userLoginTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="80dp"
+        android:textSize="25dp"
+        android:layout_centerInParent="true"
         android:text="@string/userLoginTextViewString"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -17,31 +21,35 @@
         android:id="@+id/userLoginEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/userLoginTextView"
-        android:layout_alignRight="@+id/userLoginTextView"
         android:layout_below="@+id/userLoginTextView"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerInParent="true"
+        android:textSize="25dp"
         android:ems="10"
         android:hint="@string/userLoginHintString">
 
         <requestFocus />
     </EditText>
 
-    <Button
+    <ImageButton
         android:id="@+id/userHostButton"
+        android:background="@drawable/button_host"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/userLoginEditText"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="140dp"
+        android:layout_centerInParent="true"
         android:onClick="userHostLogin"
         android:text="@string/userHostButtonString" />
 
-    <Button
+    <ImageButton
         android:id="@+id/userClientButton"
+        android:background="@drawable/button_join"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/userHostButton"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="15dp"
+        android:layout_centerInParent="true"
         android:onClick="userClientLogin"
         android:text="@string/userClientButtonString" />
 
