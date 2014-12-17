@@ -237,6 +237,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 break;
             case PLAYED:
 
+                hideArrows();
                 tv.setText("PLAYED");
                 break;
             case UNPLAYED:
