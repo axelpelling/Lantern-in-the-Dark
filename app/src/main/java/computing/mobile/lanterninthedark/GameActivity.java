@@ -269,10 +269,6 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 targetPhone.setPlayed(true);
             }
 
-            //Check if the targetPhone has reached the Sven's home then add the phone to the grid
-            gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
-            gridSystem.addPhone(targetPhone);
-
             //Animate the character to turn
             Animation upAnimation = new RotateAnimation(characterImageView.getRotation(), 0.0f, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
 
@@ -282,6 +278,11 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             upAnimation.setFillAfter(true);
 
             characterImageView.setAnimation(upAnimation);
+            gridSystem.setRotation(characterImageView.getRotation());
+
+            //Check if the targetPhone has reached the Sven's home then add the phone to the grid
+            gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
+            gridSystem.addPhone(targetPhone);
 
             //Lastly, update the server's gridSystem
             manager.lockKeyOfUser("gridSystem", "host");
@@ -301,9 +302,6 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 targetPhone.setPlayed(true);
             }
 
-            gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
-            gridSystem.addPhone(targetPhone);
-
             //Animate the character to turn
             Animation downAnimation = new RotateAnimation(gridSystem.getRotation(), 180.0f, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
 
@@ -313,8 +311,10 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             downAnimation.setFillAfter(true);
 
             characterImageView.setAnimation(downAnimation);
-
             gridSystem.setRotation(characterImageView.getRotation());
+
+            gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
+            gridSystem.addPhone(targetPhone);
 
             manager.lockKeyOfUser("gridSystem", "host");
             setStatus(Status.PLAYED);
@@ -333,9 +333,6 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 targetPhone.setPlayed(true);
             }
 
-            gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
-            gridSystem.addPhone(targetPhone);
-
             //Animate the character to turn
             Animation rightAnimation = new RotateAnimation(characterImageView.getRotation(), 90.0f, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
 
@@ -345,6 +342,10 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             rightAnimation.setFillAfter(true);
 
             characterImageView.setAnimation(rightAnimation);
+            gridSystem.setRotation(characterImageView.getRotation());
+
+            gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
+            gridSystem.addPhone(targetPhone);
 
             manager.lockKeyOfUser("gridSystem", "host");
             setStatus(Status.PLAYED);
@@ -371,6 +372,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             leftAnimation.setFillAfter(true);
 
             characterImageView.setAnimation(leftAnimation);
+            gridSystem.setRotation(characterImageView.getRotation());
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
