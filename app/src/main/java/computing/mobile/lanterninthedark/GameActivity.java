@@ -162,6 +162,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                     }
                 }
 
+
                 //Update phone position
                 int[] phonePosition = gridSystem.getPhonePosition(phone);
                 if(phonePosition[0] != -1 && phonePosition[1] != -1){
@@ -228,6 +229,9 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 //Checks if you are at the edge of the grid or if there are other phones near you
                 //and sets arrow visibilities
                 setArrowVisibilities();
+
+                characterImageView.setRotation(0);
+                characterImageView.setRotation(gridSystem.getRotation());
                 tv.setText("PLAYING");
                 break;
             case TARGET:
@@ -269,8 +273,19 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 targetPhone.setPlayed(true);
             }
 
+
             //Animate the character to turn
-            Animation upAnimation = new RotateAnimation(characterImageView.getRotation(), 0.0f, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
+            float rotation = 0f;
+            if(gridSystem.getRotation() == 90f){
+                rotation = -90f;
+            }
+            else if(gridSystem.getRotation() == 180){
+                rotation = 180f;
+            }
+            else if(gridSystem.getRotation() == -90){
+                rotation = 90f;
+            }
+            Animation upAnimation = new RotateAnimation(gridSystem.getRotation(), rotation, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
 
             // Set the animation's parameters
             upAnimation.setDuration(1000);
@@ -279,6 +294,9 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
 
             characterImageView.setAnimation(upAnimation);
             gridSystem.setRotation(characterImageView.getRotation());
+            Log.d("rotation", "rotation: " + rotation);
+            Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
+            Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
             //Check if the targetPhone has reached the Sven's home then add the phone to the grid
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
@@ -303,7 +321,17 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             }
 
             //Animate the character to turn
-            Animation downAnimation = new RotateAnimation(gridSystem.getRotation(), 180.0f, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
+            float rotation = 180f;
+            if(gridSystem.getRotation() == 90f){
+                rotation = 90f;
+            }
+            else if(gridSystem.getRotation() == 180){
+                rotation = 0f;
+            }
+            else if(gridSystem.getRotation() == -90){
+                rotation = -90f;
+            }
+            Animation downAnimation = new RotateAnimation(gridSystem.getRotation(), rotation, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
 
             // Set the animation's parameters
             downAnimation.setDuration(1000);
@@ -312,6 +340,9 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
 
             characterImageView.setAnimation(downAnimation);
             gridSystem.setRotation(characterImageView.getRotation());
+            Log.d("rotation", "rotation: " + rotation);
+            Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
+            Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
@@ -333,8 +364,19 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 targetPhone.setPlayed(true);
             }
 
+
             //Animate the character to turn
-            Animation rightAnimation = new RotateAnimation(characterImageView.getRotation(), 90.0f, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
+            float rotation = 90f;
+            if(gridSystem.getRotation() == 90f){
+                rotation = 0f;
+            }
+            else if(gridSystem.getRotation() == 180){
+                rotation = -90f;
+            }
+            else if(gridSystem.getRotation() == -90){
+                rotation = 180f;
+            }
+            Animation rightAnimation = new RotateAnimation(gridSystem.getRotation(), rotation, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
 
             // Set the animation's parameters
             rightAnimation.setDuration(1000);
@@ -343,6 +385,9 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
 
             characterImageView.setAnimation(rightAnimation);
             gridSystem.setRotation(characterImageView.getRotation());
+            Log.d("rotation", "rotation: " + rotation);
+            Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
+            Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
@@ -364,7 +409,17 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             }
 
             //Animate the character to turn
-            Animation leftAnimation = new RotateAnimation(characterImageView.getRotation(), -90.0f, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
+            float rotation = -90f;
+            if(gridSystem.getRotation() == 90f){
+                rotation = 180f;
+            }
+            else if(gridSystem.getRotation() == 180){
+                rotation = 90f;
+            }
+            else if(gridSystem.getRotation() == -90){
+                rotation = 0f;
+            }
+            Animation leftAnimation = new RotateAnimation(gridSystem.getRotation(), rotation, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
 
             // Set the animation's parameters
             leftAnimation.setDuration(1000);
@@ -373,6 +428,9 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
 
             characterImageView.setAnimation(leftAnimation);
             gridSystem.setRotation(characterImageView.getRotation());
+            Log.d("rotation", "rotation: " + rotation);
+            Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
+            Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
