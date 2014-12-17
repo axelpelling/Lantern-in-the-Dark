@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/menu_background"
+    android:adjustViewBounds="true"
+    android:scaleType="centerCrop"
     tools:context=".LoginActivity">
 
 
@@ -33,7 +35,7 @@
 
     <ImageButton
         android:id="@+id/userHostButton"
-        android:background="@drawable/button_host"
+        android:background="@drawable/host_button_design"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/userLoginEditText"
@@ -44,7 +46,7 @@
 
     <ImageButton
         android:id="@+id/userClientButton"
-        android:background="@drawable/button_join"
+        android:background="@drawable/join_button_design"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/userHostButton"
