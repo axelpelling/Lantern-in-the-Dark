@@ -10,7 +10,10 @@ import java.util.Arrays;
 public class GridSystem {
 
     private int[][] grid;
+    private int homeXPosition;
+    private int homeYPosition;
     private boolean gameFinished;
+    private int distanceToHome;
     private float rotation = 0;
 
     public GridSystem(int x, int y, int homeX, int homeY) {
@@ -20,6 +23,8 @@ public class GridSystem {
                 grid[i][j] = 0;
             }
         }
+        homeXPosition = homeX;
+        homeYPosition = homeY;
         grid[homeX][homeY] = 9001;
         gameFinished = false;
     }
@@ -53,18 +58,6 @@ public class GridSystem {
         }
     }
 
-    public int[][] getGrid(){
-        return grid;
-    }
-
-    public float getRotation() {
-        return rotation;
-    }
-
-    public void setRotation(float rotation) {
-        this.rotation = rotation;
-    }
-
     public void printGrid(){
         int[] temp = new int[grid.length];
         Log.d("printGrid", "Grid:");
@@ -84,8 +77,36 @@ public class GridSystem {
         return gameFinished;
     }
 
+    public int getHomeXPosition(){
+        return homeXPosition;
+    }
+
+    public int getHomeYPosition(){
+        return homeYPosition;
+    }
+
     public boolean isGameFinished(){
         return gameFinished;
+    }
+
+    public int[][] getGrid(){
+        return grid;
+    }
+
+    public float getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
+    }
+
+    public int getDistanceToHome() {
+        return distanceToHome;
+    }
+
+    public void setDistanceToHome(int distanceToHome) {
+        this.distanceToHome = distanceToHome;
     }
 
 }

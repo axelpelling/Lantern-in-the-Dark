@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -12,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -169,6 +173,10 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                     phone.setPosition(phonePosition[0], phonePosition[1]);
                 }
 
+                if(currentStatus.equals(Status.TARGET)){
+                    showToast();
+                }
+
                 //Update play order
                 String justPlayed = playOrder.get(0);
                 playOrder.remove(0);
@@ -230,17 +238,20 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 //and sets arrow visibilities
                 setArrowVisibilities();
 
+                gradientImageView.setImageResource(R.drawable.gradient);
                 characterImageView.setRotation(0);
                 characterImageView.setRotation(gridSystem.getRotation());
                 tv.setText("PLAYING");
                 break;
             case TARGET:
 
+
                 hideArrows();
                 tv.setText("TARGET");
                 break;
             case PLAYED:
 
+                gradientImageView.setImageResource(R.drawable.overlay);
                 hideArrows();
                 tv.setText("PLAYED");
                 break;
@@ -488,7 +499,31 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         leftButton.setVisibility(View.INVISIBLE);
     }
 
-   /* @Override
+    public void showToast(){
+        int distance = Math.abs(phone.getX() - gridSystem.getHomeXPosition()) + Math.abs(phone.getY() - gridSystem.getHomeYPosition());
+
+        LayoutInflater inflater = getLayoutInflater();
+        View feedbackToastLayout = inflater.inflate(R.layout.feedback_toast_layout,
+                (ViewGroup) findViewById(R.id.feedback_toast_layout_root));
+
+        ImageView feedbackToastImageView = (ImageView) feedbackToastLayout.findViewById(R.id.toastImageView);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(feedbackToastLayout);
+
+        if (distance > gridSystem.getDistanceToHome()){
+            
+            toast.show();
+        }
+        else {
+
+            toast.show();
+        }
+    }
+
+   /*@Override
     protected void onPause(){
         super.onPause();
 

@@ -15,11 +15,48 @@
         android:layout_height="wrap_content"
         />
 
+    <RadioGroup
+        android:id="@+id/difficultyRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hostTextView"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <RadioButton
+            android:id="@+id/easyRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.33"
+            android:text="Easy"
+            android:onClick="easyRadioButton" />
+
+        <RadioButton
+            android:id="@+id/mediumRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.33"
+            android:text="Medium"
+            android:onClick="mediumRadioButton"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/hardRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.33"
+            android:text="Hard"
+            android:onClick="hardRadioButton"/>
+
+
+
+        </RadioGroup>
+
     <ListView
         android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/hostTextView"
+        android:layout_below="@+id/difficultyRadioGroup"
         />
 
 
@@ -28,6 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/android:list"
+        android:layout_centerHorizontal="true"
         android:text="@string/HostButtonString"
         android:onClick="startGame"
         />
