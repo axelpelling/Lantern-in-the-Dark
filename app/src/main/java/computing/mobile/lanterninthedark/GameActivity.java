@@ -114,6 +114,8 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 if(playOrder.get(0).equals(playerName)){
                     setStatus(Status.PLAYING);
                     gridSystem.addPhone(phone);
+                    gridSystem.setDistanceToHome(Math.abs(phone.getX() - gridSystem.getHomeXPosition())
+                                            + Math.abs(phone.getY() - gridSystem.getHomeYPosition()));
                 }
                 else if(playOrder.get(1).equals(playerName)){
                     setStatus(Status.TARGET);
@@ -528,14 +530,23 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         if (distance > gridSystem.getDistanceToHome()){
             feedbackToastImageView.setImageResource(R.drawable.feedback_colder);
             toast.show();
+            gridSystem.setDistanceToHome(distance);
         }
         else {
             feedbackToastImageView.setImageResource(R.drawable.feedback_warmer);
             toast.show();
+            gridSystem.setDistanceToHome(distance);
         }
     }
 
-   /*@Override
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        manager.ignoreKeyOfUser("gridSystem", "host");
+    }
+
+   @Override
     protected void onPause(){
         super.onPause();
 
@@ -547,5 +558,5 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         super.onResume();
 
         manager.monitorKeyOfUser("gridSystem", "host");
-    }*/
+    }
 }

@@ -115,12 +115,12 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
             //Add randomization to starting position(last 2 parameters to GridSystem constructor)
             gridSystem = new GridSystem(difficulty, difficulty, 0, 0);
 
+
             //Save gridSystem to server
             String gridSystemJson = gson.toJson(gridSystem);
             manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemJson);
         }
         else if(key.equals("gridSystem") && user.equals("host") && startGame){
-            manager.saveValueForKeyOfUser("startGame", "host", "true");
 
             // Set the first phone's position
             players.get(playOrder.get(0)).setPosition(1, 1);//Position should be randomized
