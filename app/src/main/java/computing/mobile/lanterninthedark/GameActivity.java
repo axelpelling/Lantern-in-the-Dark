@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.graphics.drawable.AnimationDrawable;
+
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,7 +29,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 
-public class GameActivity extends Activity implements NetworkingEventHandler {
+public class GameActivity extends Activity implements NetworkingEventHandler{
 
     //Statuses of phones
     private enum Status {TARGET, PLAYING, PLAYED, UNPLAYED, LOADING, FINISHED}
@@ -49,6 +52,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
     private ImageButton leftButton;
     private ImageButton rightButton;
     private ImageView characterImageView;
+    private AnimationDrawable walkingCharacter;
     private ImageView gradientImageView;
 
     @Override
@@ -66,6 +70,9 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
 
         characterImageView = (ImageView) findViewById(R.id.characterImageView);
         gradientImageView = (ImageView) findViewById(R.id.gradientImageView);
+
+        characterImageView.setBackgroundResource(R.drawable.animation_character);
+        walkingCharacter = (AnimationDrawable) characterImageView.getBackground();
 
         setStatus(Status.LOADING);
 
@@ -298,6 +305,10 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
             Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
+            //translation
+            translationAnimation(characterImageView.getX(), characterImageView.getY(),characterImageView.getX(), 0);
+
+
             //Check if the targetPhone has reached the Sven's home then add the phone to the grid
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
@@ -344,6 +355,9 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
             Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
+           translationAnimation(characterImageView.getX(), characterImageView.getY(),characterImageView.getX(), characterImageView.getY()*2);
+
+
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
 
@@ -389,6 +403,9 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
             Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
+            translationAnimation(characterImageView.getX(), characterImageView.getY(),characterImageView.getX()*2, characterImageView.getY());
+
+
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
 
@@ -432,6 +449,12 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
             Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
+
+
+            translationAnimation(characterImageView.getX(), characterImageView.getY(),0, characterImageView.getY());
+
+
+
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
             gridSystem.addPhone(targetPhone);
 
@@ -439,6 +462,18 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             setStatus(Status.PLAYED);
         }
     }
+
+    public void translationAnimation (float startX, float startY, float endX, float endY){
+
+        walkingCharacter.start();
+        Animation translateAnimation = new TranslateAnimation(startX,startY, endX, endY);
+        translateAnimation.setDuration(2000);
+        translateAnimation.setFillEnabled(true);
+        translateAnimation.setFillAfter(true);
+        characterImageView.startAnimation(translateAnimation);
+
+    }
+
 
 
 
