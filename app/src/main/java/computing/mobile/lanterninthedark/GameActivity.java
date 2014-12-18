@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,14 +25,13 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 
 public class GameActivity extends Activity implements NetworkingEventHandler {
 
     //Statuses of phones
-    private enum Status {TARGET, PLAYING, PLAYED, UNPLAYED, LOADING, FINISHED}
+    private enum Status {TARGET, PLAYING, PLAYED, NOT_PLAYED, LOADING, FINISHED, GAME_OVER}
     private Status currentStatus;
 
     //Network manager
@@ -121,7 +119,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                     setStatus(Status.TARGET);
                 }
                 else{
-                    setStatus(Status.UNPLAYED);
+                    setStatus(Status.NOT_PLAYED);
                 }
             }
 
@@ -238,6 +236,13 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 //and sets arrow visibilities
                 setArrowVisibilities();
 
+                if(upButton.getVisibility() == View.INVISIBLE &&
+                        downButton.getVisibility() == View.INVISIBLE &&
+                        rightButton.getVisibility() == View.INVISIBLE &&
+                        leftButton.getVisibility() == View.INVISIBLE){
+                    setStatus(Status.GAME_OVER);
+                }
+
                 gradientImageView.setImageResource(R.drawable.gradient);
                 characterImageView.setRotation(0);
                 characterImageView.setRotation(gridSystem.getRotation());
@@ -255,16 +260,23 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 hideArrows();
                 tv.setText("PLAYED");
                 break;
-            case UNPLAYED:
+            case NOT_PLAYED:
 
                 hideArrows();
-                tv.setText("UNPLAYED");
+                tv.setText("NOT_PLAYED");
                 break;
             case FINISHED:
 
                 hideArrows();
                 tv.setText("GAME FINISHED");
                 Log.d("finished", "game finished");
+                manager.ignoreKeyOfUser("gridSystem", "host");
+                break;
+            case GAME_OVER:
+
+                hideArrows();
+                tv.setText("GAME OVER");
+                Log.d("finished", "game over");
                 manager.ignoreKeyOfUser("gridSystem", "host");
                 break;
         }
@@ -514,11 +526,11 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
         toast.setView(feedbackToastLayout);
 
         if (distance > gridSystem.getDistanceToHome()){
-            
+            feedbackToastImageView.setImageResource(R.drawable.feedback_colder);
             toast.show();
         }
         else {
-
+            feedbackToastImageView.setImageResource(R.drawable.feedback_warmer);
             toast.show();
         }
     }
