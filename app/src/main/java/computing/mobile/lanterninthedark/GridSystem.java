@@ -42,6 +42,7 @@ public class GridSystem {
                     phonePosition[0] = x;
                     phonePosition[1] = y;
                 }
+               
             }
         }
         return phonePosition;
@@ -53,6 +54,9 @@ public class GridSystem {
             for (int x = 0; x < grid.length; x++) {
                 if (phoneId == grid[x][y]) {
                     grid[x][y] = 0;
+                }
+                else {
+                    Log.d("lag", "failed");
                 }
             }
         }
