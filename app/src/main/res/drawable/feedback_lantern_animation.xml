@@ -4,15 +4,15 @@
     android:oneshot="false">
 
     <item
-        android:drawable="@drawable/feedback_lantern"
+        android:drawable="@drawable/feedback_lantern1"
         android:duration="200" />
     <item
-        android:drawable="@drawable/feedback_lantern"
+        android:drawable="@drawable/feedback_lantern2"
         android:duration="200" />
     <item
-        android:drawable="@drawable/feedback_lantern"
+        android:drawable="@drawable/feedback_lantern3"
         android:duration="200" />
     <item
-        android:drawable="@drawable/feedback_lantern"
+        android:drawable="@drawable/feedback_lantern2"
         android:duration="200" />
 </animation-list>
