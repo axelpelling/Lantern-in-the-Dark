@@ -190,7 +190,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                     setStatus(Status.FINISHED);
                 }
                 else if(playOrder.get(0).equals(playerName)){
-                    setStatus(Status.PLAYING);
+                    setStatus(Status.NOT_PLAYED);
                 }
                 else if(playOrder.get(1).equals(playerName)){
                     setStatus(Status.TARGET);
@@ -268,6 +268,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                 break;
             case NOT_PLAYED:
 
+                gradientImageView.setImageResource(R.drawable.not_played_overlay);
                 hideArrows();
                 tv.setText("NOT_PLAYED");
                 break;
