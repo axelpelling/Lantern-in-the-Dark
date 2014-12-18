@@ -52,6 +52,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
     private ImageButton rightButton;
     private ImageView characterImageView;
     private ImageView gradientImageView;
+    private ImageView feedbackLanternImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
 
         characterImageView = (ImageView) findViewById(R.id.characterImageView);
         gradientImageView = (ImageView) findViewById(R.id.gradientImageView);
+        feedbackLanternImageView = (ImageView) findViewById(R.id.feedbackLanternImageView);
 
         setStatus(Status.LOADING);
 
@@ -245,7 +247,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
                     setStatus(Status.GAME_OVER);
                 }
 
-                gradientImageView.setImageResource(R.drawable.gradient);
+                feedbackLanternImageView.setVisibility(View.GONE);
                 characterImageView.setRotation(0);
                 characterImageView.setRotation(gridSystem.getRotation());
                 tv.setText("PLAYING");
@@ -253,6 +255,8 @@ public class GameActivity extends Activity implements NetworkingEventHandler {
             case TARGET:
 
 
+                gradientImageView.setImageResource(R.drawable.gradient);
+                feedbackLanternImageView.setVisibility(View.VISIBLE);
                 hideArrows();
                 tv.setText("TARGET");
                 break;

@@ -43,6 +43,16 @@
         android:adjustViewBounds="true"
         android:scaleType="fitXY" />
 
+
+    <ImageView
+        android:id="@+id/feedbackLanternImageView"
+        android:src="@drawable/feedback_lantern"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
+
     <ImageButton
         android:id="@+id/upButton"
         android:background="@drawable/arrow_button_design_up"
