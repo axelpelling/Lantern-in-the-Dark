@@ -2,7 +2,6 @@ package computing.mobile.lanterninthedark;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,19 +22,24 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 
 
 public class HostActivity extends Activity implements NetworkingEventHandler{
 
     private NetworkingManager manager;
+    private Gson gson;
+
     private GridSystem gridSystem;
     private Phone hostPhone;
+    private int difficulty;
+
+    private ArrayList<String> playOrder;
     private LinkedHashMap<String, Phone> players;
     private ArrayList<String> playerNames;
     private ArrayAdapter<String> adapter;
     private String hostName;
+    private boolean startGame;
 
 
     @Override
@@ -50,12 +54,10 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
 
         manager = new NetworkingManager(this, "Group5", hostName);
         hostPhone = new Phone(1);
-        gridSystem = new GridSystem(5, 5, 1, 0);
+        gson = new Gson();
 
-        //Save gridSystem to server
-        Gson gson = new Gson();
-        String gridSystemJson = gson.toJson(gridSystem);
-        manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemJson);
+        //Standard difficulty is medium
+        difficulty = 10;
 
         //Save host player name to players list
         players = new LinkedHashMap<String, Phone>();
@@ -77,6 +79,7 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
 
         //Key for the clients to monitor for when to start the game.
         manager.saveValueForKeyOfUser("startGame", "host", "false");
+        startGame = false;
 
         //Monitor players key to check for clients
         manager.monitorKeyOfUser("players", "host");
@@ -107,8 +110,29 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
 
     @Override
     public void savedValueForKeyOfUser(JSONObject json, String key, String user) {
-        if(key.equals("playOrder") && user.equals("host")){
+        if(key.equals("playOrder") && user.equals("host") && startGame){
+
+            //Add randomization to starting position(last 2 parameters to GridSystem constructor)
+            gridSystem = new GridSystem(difficulty, difficulty, 0, 0);
+
+
+            //Save gridSystem to server
+            String gridSystemJson = gson.toJson(gridSystem);
+            manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemJson);
+        }
+        else if(key.equals("gridSystem") && user.equals("host") && startGame){
+
+            // Set the first phone's position
+            players.get(playOrder.get(0)).setPosition(1, 1);//Position should be randomized
+            players.get(playOrder.get(0)).setPlayed(true);
+
+            String playerHashMapString = gson.toJson(players);
+            manager.saveValueForKeyOfUser("players", "host", playerHashMapString);
+        }
+        else if(key.equals("players") && user.equals("host") && startGame){
             manager.saveValueForKeyOfUser("startGame", "host", "true");
+        }
+        else if(key.equals("startGame") && user.equals("host") && startGame){
             Intent intent = new Intent(this, GameActivity.class);
             intent.putExtra("playerName", hostName);
             startActivity(intent);
@@ -137,7 +161,7 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
 
     @Override
     public void valueChangedForKeyOfUser(JSONObject json, String key, String user) {
-        Gson gson = new Gson();
+        gson = new Gson();
         Log.d(NetworkingManager.TAG_EVENT_COMPLETE, "JSONOBject retreived in method valueChanged + " +
                 "forKeyOfUser: " +  json.toString());
         try {
@@ -185,20 +209,13 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
             Log.d("test1", "starting game, host");
             manager.ignoreKeyOfUser("players", "host");
 
-            ArrayList<String> playOrder = playerNames;
+            playOrder = playerNames;
             //Don't randomize order for now
             //Collections.shuffle(playOrder);
-            Gson gson = new Gson();
+            gson = new Gson();
             String playOrderString = gson.toJson(playOrder);
+            startGame = true;
             manager.saveValueForKeyOfUser("playOrder", "host", playOrderString);
-
-           // Set the first phone's position
-            players.get(playOrder.get(0)).setPosition(1, 1);//Position should be randomized
-            players.get(playOrder.get(0)).setPlayed(true);
-
-            String playerHashMapString = gson.toJson(players);
-            manager.saveValueForKeyOfUser("players", "host", playerHashMapString);
-
 
         }
         else{
@@ -206,6 +223,18 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
             Toast toast = Toast.makeText(this.getApplicationContext(), R.string.TwoOrMorePlayersRequiredString, duration);
             toast.show();
         }
+    }
+
+    public void easyRadioButton(View view) {
+        difficulty = 7;
+    }
+
+    public void mediumRadioButton(View view) {
+        difficulty = 10;
+    }
+
+    public void hardRadioButton(View view) {
+        difficulty = 13;
     }
 
     /*@Override

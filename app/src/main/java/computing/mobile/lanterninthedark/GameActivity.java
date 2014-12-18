@@ -4,17 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.graphics.drawable.AnimationDrawable;
-
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -25,14 +27,13 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 
 public class GameActivity extends Activity implements NetworkingEventHandler{
 
     //Statuses of phones
-    private enum Status {TARGET, PLAYING, PLAYED, UNPLAYED, LOADING, FINISHED}
+    private enum Status {TARGET, PLAYING, PLAYED, NOT_PLAYED, LOADING, FINISHED, GAME_OVER}
     private Status currentStatus;
 
     //Network manager
@@ -54,6 +55,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
     private ImageView characterImageView;
     private AnimationDrawable walkingCharacter;
     private ImageView gradientImageView;
+    private ImageView feedbackLanternImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
 
         characterImageView = (ImageView) findViewById(R.id.characterImageView);
         gradientImageView = (ImageView) findViewById(R.id.gradientImageView);
+        feedbackLanternImageView = (ImageView) findViewById(R.id.feedbackLanternImageView);
 
         characterImageView.setBackgroundResource(R.drawable.animation_character);
         walkingCharacter = (AnimationDrawable) characterImageView.getBackground();
@@ -119,12 +122,14 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                 if(playOrder.get(0).equals(playerName)){
                     setStatus(Status.PLAYING);
                     gridSystem.addPhone(phone);
+                    gridSystem.setDistanceToHome(Math.abs(phone.getX() - gridSystem.getHomeXPosition())
+                                            + Math.abs(phone.getY() - gridSystem.getHomeYPosition()));
                 }
                 else if(playOrder.get(1).equals(playerName)){
                     setStatus(Status.TARGET);
                 }
                 else{
-                    setStatus(Status.UNPLAYED);
+                    setStatus(Status.NOT_PLAYED);
                 }
             }
 
@@ -176,6 +181,10 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                     phone.setPosition(phonePosition[0], phonePosition[1]);
                 }
 
+                if(currentStatus.equals(Status.TARGET)){
+                    showToast();
+                }
+
                 //Update play order
                 String justPlayed = playOrder.get(0);
                 playOrder.remove(0);
@@ -187,7 +196,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                     setStatus(Status.FINISHED);
                 }
                 else if(playOrder.get(0).equals(playerName)){
-                    setStatus(Status.PLAYING);
+                    setStatus(Status.NOT_PLAYED);
                 }
                 else if(playOrder.get(1).equals(playerName)){
                     setStatus(Status.TARGET);
@@ -237,30 +246,50 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                 //and sets arrow visibilities
                 setArrowVisibilities();
 
+                if(upButton.getVisibility() == View.INVISIBLE &&
+                        downButton.getVisibility() == View.INVISIBLE &&
+                        rightButton.getVisibility() == View.INVISIBLE &&
+                        leftButton.getVisibility() == View.INVISIBLE){
+                    setStatus(Status.GAME_OVER);
+                }
+
+                feedbackLanternImageView.setVisibility(View.GONE);
                 characterImageView.setRotation(0);
                 characterImageView.setRotation(gridSystem.getRotation());
                 tv.setText("PLAYING");
                 break;
             case TARGET:
 
+
+                gradientImageView.setImageResource(R.drawable.gradient);
+                feedbackLanternImageView.setVisibility(View.VISIBLE);
                 hideArrows();
                 tv.setText("TARGET");
                 break;
             case PLAYED:
 
+                gradientImageView.setImageResource(R.drawable.overlay);
                 hideArrows();
                 tv.setText("PLAYED");
                 break;
-            case UNPLAYED:
+            case NOT_PLAYED:
 
+                gradientImageView.setImageResource(R.drawable.not_played_overlay);
                 hideArrows();
-                tv.setText("UNPLAYED");
+                tv.setText("NOT_PLAYED");
                 break;
             case FINISHED:
 
                 hideArrows();
                 tv.setText("GAME FINISHED");
                 Log.d("finished", "game finished");
+                manager.ignoreKeyOfUser("gridSystem", "host");
+                break;
+            case GAME_OVER:
+
+                hideArrows();
+                tv.setText("GAME OVER");
+                Log.d("finished", "game over");
                 manager.ignoreKeyOfUser("gridSystem", "host");
                 break;
         }
@@ -523,7 +552,40 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
         leftButton.setVisibility(View.INVISIBLE);
     }
 
-   /* @Override
+    public void showToast(){
+        int distance = Math.abs(phone.getX() - gridSystem.getHomeXPosition()) + Math.abs(phone.getY() - gridSystem.getHomeYPosition());
+
+        LayoutInflater inflater = getLayoutInflater();
+        View feedbackToastLayout = inflater.inflate(R.layout.feedback_toast_layout,
+                (ViewGroup) findViewById(R.id.feedback_toast_layout_root));
+
+        ImageView feedbackToastImageView = (ImageView) feedbackToastLayout.findViewById(R.id.toastImageView);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(feedbackToastLayout);
+
+        if (distance > gridSystem.getDistanceToHome()){
+            feedbackToastImageView.setImageResource(R.drawable.feedback_colder);
+            toast.show();
+            gridSystem.setDistanceToHome(distance);
+        }
+        else {
+            feedbackToastImageView.setImageResource(R.drawable.feedback_warmer);
+            toast.show();
+            gridSystem.setDistanceToHome(distance);
+        }
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        manager.ignoreKeyOfUser("gridSystem", "host");
+    }
+
+   @Override
     protected void onPause(){
         super.onPause();
 
@@ -535,5 +597,5 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
         super.onResume();
 
         manager.monitorKeyOfUser("gridSystem", "host");
-    }*/
+    }
 }
