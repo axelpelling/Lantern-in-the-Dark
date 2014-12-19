@@ -196,7 +196,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                     setStatus(Status.FINISHED);
                 }
                 else if(playOrder.get(0).equals(playerName)){
-                    setStatus(Status.NOT_PLAYED);
+                    setStatus(Status.PLAYING);
                 }
                 else if(playOrder.get(1).equals(playerName)){
                     setStatus(Status.TARGET);
