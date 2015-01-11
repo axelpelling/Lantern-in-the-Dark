@@ -238,6 +238,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             case LOADING:
 
                 hideArrows();
+                characterImageView.setVisibility(View.INVISIBLE);
                 tv.setText("LOADING");
                 break;
             case PLAYING:
@@ -246,6 +247,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                 //and sets arrow visibilities
                 setArrowVisibilities();
 
+                //If there are no possible moves, the game is over
                 if(upButton.getVisibility() == View.INVISIBLE &&
                         downButton.getVisibility() == View.INVISIBLE &&
                         rightButton.getVisibility() == View.INVISIBLE &&
@@ -254,6 +256,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                 }
 
                 feedbackLanternImageView.setVisibility(View.GONE);
+                characterImageView.setVisibility(View.VISIBLE);
                 characterImageView.setRotation(0);
                 characterImageView.setRotation(gridSystem.getRotation());
                 tv.setText("PLAYING");
@@ -263,6 +266,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
 
                 gradientImageView.setImageResource(R.drawable.gradient);
                 feedbackLanternImageView.setVisibility(View.VISIBLE);
+                characterImageView.setVisibility(View.INVISIBLE);
                 hideArrows();
                 tv.setText("TARGET");
                 break;
@@ -274,12 +278,14 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                 break;
             case NOT_PLAYED:
 
+                characterImageView.setVisibility(View.INVISIBLE);
                 gradientImageView.setImageResource(R.drawable.not_played_overlay);
                 hideArrows();
                 tv.setText("NOT_PLAYED");
                 break;
             case FINISHED:
 
+                characterImageView.setVisibility(View.INVISIBLE);
                 hideArrows();
                 tv.setText("GAME FINISHED");
                 Log.d("finished", "game finished");
@@ -287,6 +293,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                 break;
             case GAME_OVER:
 
+                characterImageView.setVisibility(View.INVISIBLE);
                 hideArrows();
                 tv.setText("GAME OVER");
                 Log.d("finished", "game over");
