@@ -374,10 +374,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "previous direction: " + gridSystem.getPreviousDirection());
 
             //translation
-            translationAnimation(characterImageView.getX()+characterImageView.getWidth()/2,
-                                 characterImageView.getY()+characterImageView.getHeight()/2,
-                                 characterImageView.getX()+characterImageView.getWidth()/2,
-                                 screenHeight+characterImageView.getHeight());
+            translationAnimation(0,0,0,-(screenHeight+characterImageView.getHeight())/2);
 
 
             //Check if the targetPhone has reached the Sven's home then add the phone to the grid
@@ -417,7 +414,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
             Log.d("rotation", "previous direction: " + gridSystem.getPreviousDirection());
 
-           translationAnimation((screenWidth-characterImageView.getWidth())/2,(screenHeight-characterImageView.getHeight())/2, (screenWidth-characterImageView.getWidth())/2 , (screenHeight-characterImageView.getHeight()));
+           translationAnimation(0,0, 0 , (screenHeight+characterImageView.getHeight())/2);
 
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
@@ -456,7 +453,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
             Log.d("rotation", "previous direction: " + gridSystem.getPreviousDirection());
 
-            translationAnimation((screenWidth-characterImageView.getWidth())/2, (screenHeight-characterImageView.getHeight())/2,(screenWidth-characterImageView.getWidth()),(screenHeight-characterImageView.getHeight())/2);
+            translationAnimation(0,0,(screenWidth+characterImageView.getWidth())/2,0);
 
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
@@ -494,10 +491,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "previous direction: " + gridSystem.getPreviousDirection());
 
 
-
-
-            translationAnimation((screenWidth-characterImageView.getWidth())/2,(screenHeight-characterImageView.getHeight())/2,-characterImageView.getWidth(), (screenHeight-characterImageView.getHeight())/2);
-
+            translationAnimation (0,0,-(screenWidth+characterImageView.getWidth())/2,0);
 
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
