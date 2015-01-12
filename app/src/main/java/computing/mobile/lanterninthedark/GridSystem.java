@@ -55,9 +55,6 @@ public class GridSystem {
                 if (phoneId == grid[x][y]) {
                     grid[x][y] = 0;
                 }
-                else {
-                    Log.d("lag", "failed");
-                }
             }
         }
     }

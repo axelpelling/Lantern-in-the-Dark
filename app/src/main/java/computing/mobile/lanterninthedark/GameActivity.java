@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Build;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -63,6 +64,8 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
     private AnimationDrawable walkingCharacter;
     private ImageView gradientImageView;
     private ImageView feedbackLanternImageView;
+    private MediaPlayer gettingColderMediaPlayer;
+    private MediaPlayer gettingWarmerMediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +102,9 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
 
         characterImageView.setBackgroundResource(R.drawable.animation_character);
         walkingCharacter = (AnimationDrawable) characterImageView.getBackground();
+
+        gettingColderMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.howling_wind);
+        gettingWarmerMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.fire_burning);
 
         setStatus(Status.LOADING);
 
@@ -205,7 +211,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                 }
 
                 if(currentStatus.equals(Status.TARGET)){
-                    showToast();
+                    showFeedbackToast();
                 }
 
                 //Update play order
@@ -582,7 +588,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
         leftButton.setVisibility(View.INVISIBLE);
     }
 
-    public void showToast(){
+    public void showFeedbackToast(){
         int distance = Math.abs(phone.getX() - gridSystem.getHomeXPosition()) + Math.abs(phone.getY() - gridSystem.getHomeYPosition());
 
         LayoutInflater inflater = getLayoutInflater();
@@ -597,11 +603,13 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
         toast.setView(feedbackToastLayout);
 
         if (distance > gridSystem.getDistanceToHome()){
+            gettingColderMediaPlayer.start();
             feedbackToastImageView.setImageResource(R.drawable.feedback_colder);
             toast.show();
             gridSystem.setDistanceToHome(distance);
         }
         else {
+            gettingWarmerMediaPlayer.start();
             feedbackToastImageView.setImageResource(R.drawable.feedback_warmer);
             toast.show();
             gridSystem.setDistanceToHome(distance);
