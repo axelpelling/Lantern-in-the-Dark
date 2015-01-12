@@ -47,7 +47,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
     //Network manager
     private NetworkingManager manager;
 
-    //Game elements and stuff
+    //Game elements
     private Phone phone;
     private GridSystem gridSystem;
     private LinkedHashMap<String, Phone> players;
@@ -292,7 +292,6 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                 break;
             case TARGET:
 
-
                 gradientImageView.setImageResource(R.drawable.gradient);
                 feedbackLanternImageView.setVisibility(View.VISIBLE);
                 characterImageView.setVisibility(View.INVISIBLE);
@@ -516,6 +515,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
 
 
 
+
             translationAnimation((screenWidth-characterImageView.getWidth())/2,(screenHeight-characterImageView.getHeight())/2,-characterImageView.getWidth(), (screenHeight-characterImageView.getHeight())/2);
 
 
@@ -538,9 +538,6 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
         characterImageView.startAnimation(translateAnimation);
 
     }
-
-
-
 
     public void setArrowVisibilities(){
         int[][] grid = gridSystem.getGrid();

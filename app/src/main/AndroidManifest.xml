@@ -11,7 +11,8 @@
         android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
         <activity
             android:name="computing.mobile.lanterninthedark.LoginActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,15 +21,18 @@
         </activity>
         <activity
             android:name="computing.mobile.lanterninthedark.HostActivity"
-            android:label="@string/title_activity_host" >
+            android:label="@string/title_activity_host"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="computing.mobile.lanterninthedark.ClientActivity"
-            android:label="@string/title_activity_client" >
+            android:label="@string/title_activity_client"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="computing.mobile.lanterninthedark.GameActivity"
-            android:label="@string/title_activity_game" >
+            android:label="@string/title_activity_game"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
