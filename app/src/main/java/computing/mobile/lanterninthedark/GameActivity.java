@@ -288,10 +288,6 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                         break;
                 }
 
-                //Checks if you are at the edge of the grid or if there are other phones near you
-                //and sets arrow visibilities
-                setArrowVisibilities();
-
                 //If there are no possible moves, the game is over
                 if(upButton.getVisibility() == View.INVISIBLE &&
                         downButton.getVisibility() == View.INVISIBLE &&
@@ -506,7 +502,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
 
         walkingCharacter.start();
         Animation translateAnimation = new TranslateAnimation(startX,endX,startY, endY);
-        translateAnimation.setDuration(2000);
+        translateAnimation.setDuration(3000);
         translateAnimation.setFillEnabled(true);
         translateAnimation.setFillAfter(true);
         translateAnimation.setAnimationListener(new Animation.AnimationListener() {
@@ -526,8 +522,13 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                     characterImageView.setVisibility(View.INVISIBLE);
                 }
                 else{
+                    //Show toast feedback
                     showFeedbackToast();
                     walkingCharacter.stop();
+
+                    //Checks if you are at the edge of the grid or if there are other phones near you
+                    //and sets arrow visibilities
+                    setArrowVisibilities();
                 }
             }
         });
