@@ -210,9 +210,9 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                     phone.setPosition(phonePosition[0], phonePosition[1]);
                 }
 
-                if(currentStatus.equals(Status.TARGET)){
+                /*if(currentStatus.equals(Status.TARGET)){
                     showFeedbackToast();
-                }
+                }*/
 
                 //Update play order
                 String justPlayed = playOrder.get(0);
@@ -243,12 +243,12 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             if(key.equals("gridSystem") && user.equals("host") && json.get("code").equals("1")){
                 Gson gson = new Gson();
                 String gridSystemString = gson.toJson(gridSystem);
-                manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemString);
                 Log.d("lockedGridSystem", "Locked grid system");
+                manager.saveValueForKeyOfUser("gridSystem", "host", gridSystemString);
             }
             else if (key.equals("gridSystem") && user.equals("host") && json.get("code").equals("2")) {
-                manager.lockKeyOfUser("gridSystem", "host");
                 Log.d("lockedGridSystem", "Grid system was already in use");
+                manager.lockKeyOfUser("gridSystem", "host");
             }
 
         } catch (JSONException e) {
@@ -272,18 +272,19 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                 break;
             case PLAYING:
 
+                characterImageView.setVisibility(View.VISIBLE);
                 switch (gridSystem.getPreviousDirection()){
                     case "up":
-
+                        translationAnimation(0,-(screenHeight+characterImageView.getHeight())/2,0,0, false);
                         break;
                     case "down":
-
+                        translationAnimation(0,(screenHeight+characterImageView.getHeight())/2,0,0, false);
                         break;
                     case "right":
-
+                        translationAnimation((screenWidth+characterImageView.getWidth())/2,0,0,0, false);
                         break;
                     case "left":
-
+                        translationAnimation (-(screenWidth+characterImageView.getWidth())/2,0,0,0, false);
                         break;
                 }
 
@@ -300,7 +301,6 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                 }
 
                 feedbackLanternImageView.setVisibility(View.GONE);
-                characterImageView.setVisibility(View.VISIBLE);
                 tv.setText("PLAYING");
                 break;
             case TARGET:
@@ -374,7 +374,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "previous direction: " + gridSystem.getPreviousDirection());
 
             //translation
-            translationAnimation(0,0,0,-(screenHeight+characterImageView.getHeight())/2);
+            translationAnimation(0,0,0,-(screenHeight+characterImageView.getHeight())/2, true);
 
 
             //Check if the targetPhone has reached the Sven's home then add the phone to the grid
@@ -414,7 +414,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
             Log.d("rotation", "previous direction: " + gridSystem.getPreviousDirection());
 
-           translationAnimation(0,0, 0 , (screenHeight+characterImageView.getHeight())/2);
+           translationAnimation(0,0, 0 , (screenHeight+characterImageView.getHeight())/2, true);
 
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
@@ -453,7 +453,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
             Log.d("rotation", "previous direction: " + gridSystem.getPreviousDirection());
 
-            translationAnimation(0,0,(screenWidth+characterImageView.getWidth())/2,0);
+            translationAnimation(0,0,(screenWidth+characterImageView.getWidth())/2,0, true);
 
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
@@ -491,7 +491,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "previous direction: " + gridSystem.getPreviousDirection());
 
 
-            translationAnimation (0,0,-(screenWidth+characterImageView.getWidth())/2,0);
+            translationAnimation (0,0,-(screenWidth+characterImageView.getWidth())/2,0, true);
 
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
@@ -502,16 +502,38 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
         }
     }
 
-    public void translationAnimation (float startX, float startY, float endX, float endY){
+    public void translationAnimation (float startX, float startY, float endX, float endY, final boolean fromMiddle){
 
         walkingCharacter.start();
         Animation translateAnimation = new TranslateAnimation(startX,endX,startY, endY);
         translateAnimation.setDuration(2000);
         translateAnimation.setFillEnabled(true);
         translateAnimation.setFillAfter(true);
+        translateAnimation.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if(fromMiddle){
+                    characterImageView.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    showFeedbackToast();
+                }
+            }
+        });
+
         characterImageView.startAnimation(translateAnimation);
 
-    }
+        }
 
     public void setArrowVisibilities(){
         int[][] grid = gridSystem.getGrid();
