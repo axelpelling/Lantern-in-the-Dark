@@ -14,7 +14,7 @@ public class GridSystem {
     private int homeYPosition;
     private boolean gameFinished;
     private int distanceToHome;
-    private float rotation = 0;
+    private String previousDirection = "down";
 
     public GridSystem(int x, int y, int homeX, int homeY) {
         grid = new int[x][y];
@@ -94,12 +94,12 @@ public class GridSystem {
         return grid;
     }
 
-    public float getRotation() {
-        return rotation;
+    public String getPreviousDirection() {
+        return previousDirection;
     }
 
-    public void setRotation(float rotation) {
-        this.rotation = rotation;
+    public void setPreviousDirection(String previousDirection) {
+        this.previousDirection = previousDirection;
     }
 
     public int getDistanceToHome() {

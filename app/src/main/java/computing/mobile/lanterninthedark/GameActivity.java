@@ -272,6 +272,21 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                 break;
             case PLAYING:
 
+                switch (gridSystem.getPreviousDirection()){
+                    case "up":
+
+                        break;
+                    case "down":
+
+                        break;
+                    case "right":
+
+                        break;
+                    case "left":
+
+                        break;
+                }
+
                 //Checks if you are at the edge of the grid or if there are other phones near you
                 //and sets arrow visibilities
                 setArrowVisibilities();
@@ -286,8 +301,6 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
 
                 feedbackLanternImageView.setVisibility(View.GONE);
                 characterImageView.setVisibility(View.VISIBLE);
-                characterImageView.setRotation(0);
-                characterImageView.setRotation(gridSystem.getRotation());
                 tv.setText("PLAYING");
                 break;
             case TARGET:
@@ -347,16 +360,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
 
             //Animate the character to turn
             float rotation = 0f;
-            if(gridSystem.getRotation() == 90f){
-                rotation = -90f;
-            }
-            else if(gridSystem.getRotation() == 180){
-                rotation = 180f;
-            }
-            else if(gridSystem.getRotation() == -90){
-                rotation = 90f;
-            }
-            Animation upAnimation = new RotateAnimation(gridSystem.getRotation(), rotation, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
+            Animation upAnimation = new RotateAnimation(0, rotation, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
 
             // Set the animation's parameters
             upAnimation.setDuration(1000);
@@ -364,13 +368,16 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             upAnimation.setFillAfter(true);
 
             characterImageView.setAnimation(upAnimation);
-            gridSystem.setRotation(characterImageView.getRotation());
+            gridSystem.setPreviousDirection("up");
             Log.d("rotation", "rotation: " + rotation);
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
-            Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
+            Log.d("rotation", "previous direction: " + gridSystem.getPreviousDirection());
 
             //translation
-            translationAnimation((screenWidth-characterImageView.getWidth())/2,(screenWidth-characterImageView.getWidth())/2, (screenHeight-characterImageView.getHeight())/2, characterImageView.getHeight());
+            translationAnimation(characterImageView.getX()+characterImageView.getWidth()/2,
+                                 characterImageView.getY()+characterImageView.getHeight()/2,
+                                 characterImageView.getX()+characterImageView.getWidth()/2,
+                                 screenHeight+characterImageView.getHeight());
 
 
             //Check if the targetPhone has reached the Sven's home then add the phone to the grid
@@ -397,16 +404,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
 
             //Animate the character to turn
             float rotation = 180f;
-            if(gridSystem.getRotation() == 90f){
-                rotation = 90f;
-            }
-            else if(gridSystem.getRotation() == 180){
-                rotation = 0f;
-            }
-            else if(gridSystem.getRotation() == -90){
-                rotation = -90f;
-            }
-            Animation downAnimation = new RotateAnimation(gridSystem.getRotation(), rotation, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
+            Animation downAnimation = new RotateAnimation(0, rotation, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
 
             // Set the animation's parameters
             downAnimation.setDuration(1000);
@@ -414,10 +412,10 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             downAnimation.setFillAfter(true);
 
             characterImageView.setAnimation(downAnimation);
-            gridSystem.setRotation(characterImageView.getRotation());
+            gridSystem.setPreviousDirection("down");
             Log.d("rotation", "rotation: " + rotation);
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
-            Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
+            Log.d("rotation", "previous direction: " + gridSystem.getPreviousDirection());
 
            translationAnimation((screenWidth-characterImageView.getWidth())/2,(screenHeight-characterImageView.getHeight())/2, (screenWidth-characterImageView.getWidth())/2 , (screenHeight-characterImageView.getHeight()));
 
@@ -445,16 +443,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
 
             //Animate the character to turn
             float rotation = 90f;
-            if(gridSystem.getRotation() == 90f){
-                rotation = 0f;
-            }
-            else if(gridSystem.getRotation() == 180){
-                rotation = -90f;
-            }
-            else if(gridSystem.getRotation() == -90){
-                rotation = 180f;
-            }
-            Animation rightAnimation = new RotateAnimation(gridSystem.getRotation(), rotation, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
+            Animation rightAnimation = new RotateAnimation(0, rotation, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
 
             // Set the animation's parameters
             rightAnimation.setDuration(1000);
@@ -462,10 +451,10 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             rightAnimation.setFillAfter(true);
 
             characterImageView.setAnimation(rightAnimation);
-            gridSystem.setRotation(characterImageView.getRotation());
+            gridSystem.setPreviousDirection("right");
             Log.d("rotation", "rotation: " + rotation);
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
-            Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
+            Log.d("rotation", "previous direction: " + gridSystem.getPreviousDirection());
 
             translationAnimation((screenWidth-characterImageView.getWidth())/2, (screenHeight-characterImageView.getHeight())/2,(screenWidth-characterImageView.getWidth()),(screenHeight-characterImageView.getHeight())/2);
 
@@ -491,16 +480,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
 
             //Animate the character to turn
             float rotation = -90f;
-            if(gridSystem.getRotation() == 90f){
-                rotation = 180f;
-            }
-            else if(gridSystem.getRotation() == 180){
-                rotation = 90f;
-            }
-            else if(gridSystem.getRotation() == -90){
-                rotation = 0f;
-            }
-            Animation leftAnimation = new RotateAnimation(gridSystem.getRotation(), rotation, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
+            Animation leftAnimation = new RotateAnimation(0, rotation, characterImageView.getWidth()/2, characterImageView.getHeight()/2);
 
             // Set the animation's parameters
             leftAnimation.setDuration(1000);
@@ -508,10 +488,10 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             leftAnimation.setFillAfter(true);
 
             characterImageView.setAnimation(leftAnimation);
-            gridSystem.setRotation(characterImageView.getRotation());
+            gridSystem.setPreviousDirection("left");
             Log.d("rotation", "rotation: " + rotation);
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
-            Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
+            Log.d("rotation", "previous direction: " + gridSystem.getPreviousDirection());
 
 
 
