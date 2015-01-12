@@ -370,7 +370,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
             //translation
-            translationAnimation((screenWidth-characterImageView.getWidth())/2,(screenWidth-characterImageView.getWidth())/2, (screenHeight-characterImageView.getHeight())/2, characterImageView.getHeight());
+            translationAnimation(0,0,0,-(screenHeight+characterImageView.getHeight())/2);
 
 
             //Check if the targetPhone has reached the Sven's home then add the phone to the grid
@@ -419,7 +419,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
             Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
-           translationAnimation((screenWidth-characterImageView.getWidth())/2,(screenHeight-characterImageView.getHeight())/2, (screenWidth-characterImageView.getWidth())/2 , (screenHeight-characterImageView.getHeight()));
+           translationAnimation(0,0, 0 , (screenHeight+characterImageView.getHeight())/2);
 
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
@@ -467,7 +467,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
             Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
-            translationAnimation((screenWidth-characterImageView.getWidth())/2, (screenHeight-characterImageView.getHeight())/2,(screenWidth-characterImageView.getWidth()),(screenHeight-characterImageView.getHeight())/2);
+            translationAnimation(0,0,(screenWidth+characterImageView.getWidth())/2,0);
 
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
@@ -514,10 +514,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
 
-
-
-            translationAnimation((screenWidth-characterImageView.getWidth())/2,(screenHeight-characterImageView.getHeight())/2,-characterImageView.getWidth(), (screenHeight-characterImageView.getHeight())/2);
-
+            translationAnimation (0,0,-(screenWidth+characterImageView.getWidth())/2,0);
 
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
