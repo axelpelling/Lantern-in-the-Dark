@@ -53,6 +53,10 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
         hostName = intent.getStringExtra("hostName");
 
         manager = new NetworkingManager(this, "Group5", hostName);
+        manager.deleteKeyOfUser("gridSystem", "host");
+        manager.deleteKeyOfUser("players", "host");
+        manager.deleteKeyOfUser("startGame", "host");
+        manager.deleteKeyOfUser("playOrder", "host");
         hostPhone = new Phone(1);
         gson = new Gson();
 

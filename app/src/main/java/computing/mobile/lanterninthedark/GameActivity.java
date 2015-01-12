@@ -275,16 +275,16 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                 characterImageView.setVisibility(View.VISIBLE);
                 switch (gridSystem.getPreviousDirection()){
                     case "up":
-                        translationAnimation(0,-(screenHeight+characterImageView.getHeight())/2,0,0, false);
-                        break;
-                    case "down":
                         translationAnimation(0,(screenHeight+characterImageView.getHeight())/2,0,0, false);
                         break;
+                    case "down":
+                        translationAnimation(0,-(screenHeight+characterImageView.getHeight())/2,0,0, false);
+                        break;
                     case "right":
-                        translationAnimation((screenWidth+characterImageView.getWidth())/2,0,0,0, false);
+                        translationAnimation(-(screenWidth+characterImageView.getWidth())/2,0,0,0, false);
                         break;
                     case "left":
-                        translationAnimation (-(screenWidth+characterImageView.getWidth())/2,0,0,0, false);
+                        translationAnimation ((screenWidth+characterImageView.getWidth())/2,0,0,0, false);
                         break;
                 }
 
@@ -527,6 +527,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                 }
                 else{
                     showFeedbackToast();
+                    walkingCharacter.stop();
                 }
             }
         });
