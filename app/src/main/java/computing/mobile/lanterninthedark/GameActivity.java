@@ -2,8 +2,11 @@ package computing.mobile.lanterninthedark;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +34,10 @@ import java.util.LinkedHashMap;
 
 
 public class GameActivity extends Activity implements NetworkingEventHandler{
+
+    //screen size
+    private int screenWidth;
+    private int screenHeight;
 
     //Statuses of phones
     private enum Status {TARGET, PLAYING, PLAYED, NOT_PLAYED, LOADING, FINISHED, GAME_OVER}
@@ -63,6 +70,22 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
         setContentView(R.layout.activity_game);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        Point size = new Point();
+        WindowManager w = getWindowManager();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
+        {
+            w.getDefaultDisplay().getSize(size);
+            screenWidth = size.x;
+            screenHeight = size.y;
+        }
+        else
+        {
+            Display d = w.getDefaultDisplay();
+            screenWidth = d.getWidth();
+            screenHeight = d.getHeight();
+        }
 
         tv = (TextView) findViewById(R.id.tv);
         upButton = (ImageButton) findViewById(R.id.upButton);
@@ -342,7 +365,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
             //translation
-            translationAnimation(characterImageView.getX(),characterImageView.getX(), characterImageView.getY(), 0);
+            translationAnimation((screenWidth-characterImageView.getWidth())/2,(screenWidth-characterImageView.getWidth())/2, (screenHeight-characterImageView.getHeight())/2, characterImageView.getHeight());
 
 
             //Check if the targetPhone has reached the Sven's home then add the phone to the grid
@@ -391,7 +414,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
             Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
-           translationAnimation(characterImageView.getX(), characterImageView.getX(),  characterImageView.getY(),characterImageView.getY()*2);
+           translationAnimation((screenWidth-characterImageView.getWidth())/2,(screenHeight-characterImageView.getHeight())/2, (screenWidth-characterImageView.getWidth())/2 , (screenHeight-characterImageView.getHeight()));
 
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
@@ -439,7 +462,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
             Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
-            translationAnimation(characterImageView.getX(),characterImageView.getX()*2, characterImageView.getY(), characterImageView.getY());
+            translationAnimation((screenWidth-characterImageView.getWidth())/2, (screenHeight-characterImageView.getHeight())/2,(screenWidth-characterImageView.getWidth()),(screenHeight-characterImageView.getHeight())/2);
 
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
@@ -487,7 +510,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
 
 
 
-            translationAnimation(characterImageView.getX(), 0,characterImageView.getY(), characterImageView.getY());
+            translationAnimation((screenWidth-characterImageView.getWidth())/2,(screenHeight-characterImageView.getHeight())/2,-characterImageView.getWidth(), (screenHeight-characterImageView.getHeight())/2);
 
 
 
@@ -502,7 +525,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
     public void translationAnimation (float startX, float startY, float endX, float endY){
 
         walkingCharacter.start();
-        Animation translateAnimation = new TranslateAnimation(startX,startY, endX, endY);
+        Animation translateAnimation = new TranslateAnimation(startX,endX,startY, endY);
         translateAnimation.setDuration(2000);
         translateAnimation.setFillEnabled(true);
         translateAnimation.setFillAfter(true);
