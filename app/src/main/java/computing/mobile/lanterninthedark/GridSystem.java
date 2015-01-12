@@ -14,7 +14,7 @@ public class GridSystem {
     private int homeYPosition;
     private boolean gameFinished;
     private int distanceToHome;
-    private String previousDirection = "down";
+    private String previousDirection = "start";
 
     public GridSystem(int x, int y, int homeX, int homeY) {
         grid = new int[x][y];

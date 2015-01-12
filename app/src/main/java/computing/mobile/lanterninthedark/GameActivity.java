@@ -284,17 +284,15 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                         translationAnimation(-(screenWidth+characterImageView.getWidth())/2,0,0,0, false);
                         break;
                     case "left":
-                        translationAnimation ((screenWidth+characterImageView.getWidth())/2,0,0,0, false);
+                        translationAnimation((screenWidth+characterImageView.getWidth())/2,0,0,0, false);
+                        break;
+                    case "start":
+                        //Checks if you are at the edge of the grid or if there are other phones near you
+                        //and sets arrow visibilities
+                        setArrowVisibilities();
                         break;
                 }
 
-                //If there are no possible moves, the game is over
-                if(upButton.getVisibility() == View.INVISIBLE &&
-                        downButton.getVisibility() == View.INVISIBLE &&
-                        rightButton.getVisibility() == View.INVISIBLE &&
-                        leftButton.getVisibility() == View.INVISIBLE){
-                    setStatus(Status.GAME_OVER);
-                }
 
                 feedbackLanternImageView.setVisibility(View.GONE);
                 tv.setText("PLAYING");
@@ -322,7 +320,9 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                 break;
             case FINISHED:
 
+                feedbackLanternImageView.setVisibility(View.INVISIBLE);
                 characterImageView.setVisibility(View.INVISIBLE);
+                gradientImageView.setImageResource(R.drawable.you_won);
                 hideArrows();
                 tv.setText("GAME FINISHED");
                 Log.d("finished", "game finished");
@@ -529,6 +529,14 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                     //Checks if you are at the edge of the grid or if there are other phones near you
                     //and sets arrow visibilities
                     setArrowVisibilities();
+
+                    //If there are no possible moves, the game is over
+                    if(upButton.getVisibility() == View.INVISIBLE &&
+                        downButton.getVisibility() == View.INVISIBLE &&
+                        rightButton.getVisibility() == View.INVISIBLE &&
+                        leftButton.getVisibility() == View.INVISIBLE){
+                        setStatus(Status.GAME_OVER);
+                    }
                 }
             }
         });

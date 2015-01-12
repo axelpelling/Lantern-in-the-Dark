@@ -23,6 +23,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.Random;
 
 
 public class HostActivity extends Activity implements NetworkingEventHandler{
@@ -40,6 +41,10 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
     private ArrayAdapter<String> adapter;
     private String hostName;
     private boolean startGame;
+    private int homeX;
+    private int homeY;
+    private int startX;
+    private int startY;
 
 
     @Override
@@ -81,6 +86,7 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
                 playerNames);
         listView.setAdapter(adapter);
 
+
         //Key for the clients to monitor for when to start the game.
         manager.saveValueForKeyOfUser("startGame", "host", "false");
         startGame = false;
@@ -117,7 +123,8 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
         if(key.equals("playOrder") && user.equals("host") && startGame){
 
             //Add randomization to starting position(last 2 parameters to GridSystem constructor)
-            gridSystem = new GridSystem(difficulty, difficulty, 0, 0);
+            calculateHomeAndStartPositions();
+            gridSystem = new GridSystem(difficulty, difficulty, homeX, homeY);
 
 
             //Save gridSystem to server
@@ -127,7 +134,7 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
         else if(key.equals("gridSystem") && user.equals("host") && startGame){
 
             // Set the first phone's position
-            players.get(playOrder.get(0)).setPosition(1, 1);//Position should be randomized
+            players.get(playOrder.get(0)).setPosition(startX, startY);
             players.get(playOrder.get(0)).setPlayed(true);
 
             String playerHashMapString = gson.toJson(players);
@@ -140,6 +147,20 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
             Intent intent = new Intent(this, GameActivity.class);
             intent.putExtra("playerName", hostName);
             startActivity(intent);
+        }
+    }
+
+    private void calculateHomeAndStartPositions() {
+        Random rand = new Random();
+        homeX = rand.nextInt(difficulty-1);
+        homeY = rand.nextInt(difficulty-1);
+
+        startX = rand.nextInt(difficulty-1);
+        startY = rand.nextInt(difficulty-1);
+
+        int distance = Math.abs(startX - homeX) + Math.abs(startY - homeY);
+        if (distance < 3){
+            calculateHomeAndStartPositions();
         }
     }
 
