@@ -342,7 +342,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
             //translation
-            translationAnimation(characterImageView.getX(), characterImageView.getY(),characterImageView.getX(), 0);
+            translationAnimation(characterImageView.getX(),characterImageView.getX(), characterImageView.getY(), 0);
 
 
             //Check if the targetPhone has reached the Sven's home then add the phone to the grid
@@ -391,7 +391,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
             Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
-           translationAnimation(characterImageView.getX(), characterImageView.getY(),characterImageView.getX(), characterImageView.getY()*2);
+           translationAnimation(characterImageView.getX(), characterImageView.getX(),  characterImageView.getY(),characterImageView.getY()*2);
 
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
@@ -439,7 +439,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             Log.d("rotation", "imageView rotation: " + characterImageView.getRotation());
             Log.d("rotation", "gridSystem rotation: " + gridSystem.getRotation());
 
-            translationAnimation(characterImageView.getX(), characterImageView.getY(),characterImageView.getX()*2, characterImageView.getY());
+            translationAnimation(characterImageView.getX(),characterImageView.getX()*2, characterImageView.getY(), characterImageView.getY());
 
 
             gridSystem.checkGameFinished(targetPhone.getX(), targetPhone.getY());
@@ -487,7 +487,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
 
 
 
-            translationAnimation(characterImageView.getX(), characterImageView.getY(),0, characterImageView.getY());
+            translationAnimation(characterImageView.getX(), 0,characterImageView.getY(), characterImageView.getY());
 
 
 
