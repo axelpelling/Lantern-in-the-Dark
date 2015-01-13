@@ -87,7 +87,6 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
                 playerNames);
         listView.setAdapter(adapter);
 
-
         //Key for the clients to monitor for when to start the game.
         manager.saveValueForKeyOfUser("startGame", "host", "false");
         startGame = false;
