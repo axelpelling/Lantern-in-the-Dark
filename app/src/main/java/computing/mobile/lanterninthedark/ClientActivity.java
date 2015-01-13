@@ -117,7 +117,7 @@ public class ClientActivity extends Activity implements NetworkingEventHandler {
         try {
             if(key.equals("startGame") && user.equals("host")){
                 if(json.getJSONArray("records").getJSONObject(0).getString("value").equals("true")){
-                    Log.d("test1", "starting game, client");
+                    Log.d("start game", "starting game, client");
                     manager.ignoreKeyOfUser("startGame", "host");
 
                     Intent intent = new Intent(this, GameActivity.class);
@@ -152,7 +152,14 @@ public class ClientActivity extends Activity implements NetworkingEventHandler {
 
     }
 
-    /*@Override
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        manager.ignoreKeyOfUser("startGame", "host");
+    }
+
+    @Override
     protected void onPause(){
         super.onPause();
 
@@ -164,5 +171,5 @@ public class ClientActivity extends Activity implements NetworkingEventHandler {
         super.onResume();
 
         manager.monitorKeyOfUser("startGame", "host");
-    }*/
+    }
 }

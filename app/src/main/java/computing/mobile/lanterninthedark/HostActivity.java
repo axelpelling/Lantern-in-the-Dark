@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Random;
 
@@ -150,20 +151,6 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
         }
     }
 
-    private void calculateHomeAndStartPositions() {
-        Random rand = new Random();
-        homeX = rand.nextInt(difficulty-1);
-        homeY = rand.nextInt(difficulty-1);
-
-        startX = rand.nextInt(difficulty-1);
-        startY = rand.nextInt(difficulty-1);
-
-        int distance = Math.abs(startX - homeX) + Math.abs(startY - homeY);
-        if (distance < 3){
-            calculateHomeAndStartPositions();
-        }
-    }
-
     @Override
     public void loadedValueForKeyOfUser(JSONObject json, String key, String user) {
 
@@ -230,13 +217,13 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
     }
 
     public void startGame(View view) {
-        if(playerNames.size() >= 1){
-            Log.d("test1", "starting game, host");
+        if(playerNames.size() > 1){
+            Log.d("start game", "starting game, host");
             manager.ignoreKeyOfUser("players", "host");
 
             playOrder = playerNames;
-            //Don't randomize order for now
-            //Collections.shuffle(playOrder);
+            //Randomize player order and save it to server
+            Collections.shuffle(playOrder);
             gson = new Gson();
             String playOrderString = gson.toJson(playOrder);
             startGame = true;
@@ -247,6 +234,20 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(this.getApplicationContext(), R.string.TwoOrMorePlayersRequiredString, duration);
             toast.show();
+        }
+    }
+
+    private void calculateHomeAndStartPositions() {
+        Random rand = new Random();
+        homeX = rand.nextInt(difficulty-1);
+        homeY = rand.nextInt(difficulty-1);
+
+        startX = rand.nextInt(difficulty-1);
+        startY = rand.nextInt(difficulty-1);
+
+        int distance = Math.abs(startX - homeX) + Math.abs(startY - homeY);
+        if (distance < 3){
+            calculateHomeAndStartPositions();
         }
     }
 
@@ -262,7 +263,15 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
         difficulty = 13;
     }
 
-    /*@Override
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        manager.ignoreKeyOfUser("players", "host");
+    }
+
+    @Override
     protected void onPause(){
         super.onPause();
 
@@ -274,5 +283,5 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
         super.onResume();
 
         manager.monitorKeyOfUser("players", "host");
-    }*/
+    }
 }

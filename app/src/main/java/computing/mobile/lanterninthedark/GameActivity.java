@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Random;
 
 
 public class GameActivity extends Activity implements NetworkingEventHandler{
@@ -62,6 +63,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
     private ImageButton rightButton;
     private ImageView characterImageView;
     private AnimationDrawable walkingCharacter;
+    private ImageView backgroundImageView;
     private ImageView gradientImageView;
     private ImageView feedbackLanternImageView;
     private MediaPlayer gettingColderMediaPlayer;
@@ -97,6 +99,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
         rightButton = (ImageButton) findViewById(R.id.rightButton);
 
         characterImageView = (ImageView) findViewById(R.id.characterImageView);
+        backgroundImageView = (ImageView) findViewById(R.id.backgroundImageView);
         gradientImageView = (ImageView) findViewById(R.id.gradientImageView);
         feedbackLanternImageView = (ImageView) findViewById(R.id.feedbackLanternImageView);
 
@@ -105,6 +108,9 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
 
         gettingColderMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.howling_wind);
         gettingWarmerMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.fire_burning);
+
+
+        getNewBackgroundSource();
 
         setStatus(Status.LOADING);
 
@@ -299,6 +305,7 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
                 break;
             case TARGET:
 
+                getNewBackgroundSource();
                 gradientImageView.setImageResource(R.drawable.gradient);
                 feedbackLanternImageView.setVisibility(View.VISIBLE);
                 characterImageView.setVisibility(View.INVISIBLE);
@@ -616,6 +623,18 @@ public class GameActivity extends Activity implements NetworkingEventHandler{
             feedbackToastImageView.setImageResource(R.drawable.feedback_warmer);
             toast.show();
             gridSystem.setDistanceToHome(distance);
+        }
+    }
+
+
+    private void getNewBackgroundSource() {
+        Random rand = new Random();
+        int background = rand.nextInt(2);
+        if(background == 1) {
+            backgroundImageView.setImageResource(R.drawable.background_1);
+        }
+        else{
+            backgroundImageView.setImageResource(R.drawable.background_2);
         }
     }
 

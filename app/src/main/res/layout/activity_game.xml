@@ -8,7 +8,7 @@
 
     <ImageView
         android:id="@+id/backgroundImageView"
-        android:src="@drawable/background_1"
+        android:src="@drawable/background_2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
