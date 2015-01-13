@@ -16,6 +16,16 @@
         android:scaleType="centerCrop" />
 
 
+    <ImageView
+        android:id="@+id/gradientImageView"
+        android:src="@drawable/gradient"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY" />
+
     <TextView
         android:id="@+id/userLoginTextView"
         android:layout_width="wrap_content"
@@ -52,8 +62,7 @@
         android:layout_below="@+id/userLoginEditText"
         android:layout_marginTop="140dp"
         android:layout_centerInParent="true"
-        android:onClick="userHostLogin"
-        android:text="@string/userHostButtonString" />
+        android:onClick="userHostLogin" />
 
     <ImageButton
         android:id="@+id/userClientButton"
@@ -63,8 +72,7 @@
         android:layout_below="@+id/userHostButton"
         android:layout_marginTop="15dp"
         android:layout_centerInParent="true"
-        android:onClick="userClientLogin"
-        android:text="@string/userClientButtonString" />
+        android:onClick="userClientLogin"/>
 
 
 </RelativeLayout>

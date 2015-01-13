@@ -2,14 +2,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="computing.mobile.lanterninthedark.HostActivity">
+
+    <ImageView
+        android:id="@+id/backgroundImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/menu_background"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/gradientImageView"
+        android:src="@drawable/gradient"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/hostTextView"
+        android:layout_marginTop="40dp"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
         android:text="@string/HostTextViewString"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,6 +37,7 @@
     <RadioGroup
         android:id="@+id/difficultyRadioGroup"
         android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/hostTextView"
         android:orientation="horizontal"
@@ -28,6 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.33"
+            android:textSize="20sp"
             android:text="Easy"
             android:onClick="easyRadioButton" />
 
@@ -36,6 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.33"
+            android:textSize="20sp"
             android:text="Medium"
             android:onClick="mediumRadioButton"
             android:checked="true"/>
@@ -45,6 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.33"
+            android:textSize="20sp"
             android:text="Hard"
             android:onClick="hardRadioButton"/>
 
@@ -55,18 +78,19 @@
     <ListView
         android:id="@id/android:list"
         android:layout_width="match_parent"
+        android:layout_marginTop="140dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/difficultyRadioGroup"
         />
 
 
-    <Button
+    <ImageButton
         android:id="@+id/hostButton"
+        android:background="@drawable/start_button_design"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/android:list"
         android:layout_centerHorizontal="true"
-        android:text="@string/HostButtonString"
         android:onClick="startGame"
         />
 

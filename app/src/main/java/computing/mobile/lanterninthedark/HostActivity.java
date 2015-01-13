@@ -83,9 +83,10 @@ public class HostActivity extends Activity implements NetworkingEventHandler{
         }
         ListView listView = (ListView) findViewById(android.R.id.list);
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
+                R.layout.players_list_design,
                 playerNames);
         listView.setAdapter(adapter);
+
 
         //Key for the clients to monitor for when to start the game.
         manager.saveValueForKeyOfUser("startGame", "host", "false");
